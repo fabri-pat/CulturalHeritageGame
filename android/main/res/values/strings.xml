@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cultural Heritage Game</string>
+    <string name="splash_image_description">Logo centrale avvio applicazione, è il \'Pantheon\'</string>
+    <string name="btn_info">Informazioni</string>
+    <string name="btn_play">Gioca</string>
+    <string name="btn_settings_description">Bottone impostazioni</string>
+    <string name="btn_profile_description">Bottone profilo</string>
+</resources>
