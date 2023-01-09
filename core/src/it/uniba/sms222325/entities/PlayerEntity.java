@@ -21,7 +21,7 @@ public class PlayerEntity extends Actor {
     private World world;
     private Body body;
     private Fixture fixture;
-    private boolean alive = true, jumping = false, mustJump = false;
+    private boolean alive = true, onFloor = true;
 
     public PlayerEntity(World world, Texture texture, Vector2 position) {
         this.world = world;
@@ -49,24 +49,20 @@ public class PlayerEntity extends Actor {
 
     @Override
     public void act(float delta) {
-        if (mustJump) {
-            mustJump = false;
-            jump();
-        }
 
         if (alive) {
             float velocityY = body.getLinearVelocity().y;
             body.setLinearVelocity(PLAYER_SPEED, velocityY);
         }
 
-        if (jumping) {
+        if (!onFloor) {
             body.applyForceToCenter(0, -IMPULSE_JUMP * 0.50f, true);
         }
     }
 
     public void jump() {
-        if (!jumping && alive) {
-            jumping = true;
+        if (onFloor && alive) {
+            onFloor = false;
             Vector2 position = body.getPosition();
             body.applyLinearImpulse(0, IMPULSE_JUMP, position.x, position.y, true);
         }
@@ -77,20 +73,12 @@ public class PlayerEntity extends Actor {
         world.destroyBody(body);
     }
 
-    public boolean isJumping() {
-        return jumping;
+    public boolean isOnFloor() {
+        return onFloor;
     }
 
-    public void setJumping(boolean jumping) {
-        this.jumping = jumping;
-    }
-
-    public boolean isMustJump() {
-        return mustJump;
-    }
-
-    public void setMustJump(boolean mustJump) {
-        this.mustJump = mustJump;
+    public void setOnFloor(boolean jumping) {
+        this.onFloor = jumping;
     }
 
     public boolean isAlive() {
