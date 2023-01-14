@@ -57,7 +57,7 @@ public class GameScreen extends BaseScreen {
             @Override
             public void beginContact(Contact contact) {
 
-                // collisiione tra protagonista e terreno
+                // collisione tra protagonista e terreno
                 if (areCollided(contact, "player", "soil")) {
                     player.setJumping(false);
                     if (Gdx.input.isTouched()) {        // per far saltare il protagonista, tenendo premuto lo schermo
@@ -66,7 +66,7 @@ public class GameScreen extends BaseScreen {
                     }
                 }
 
-                // collisiione tra protagonista e blocco
+                // collisione tra protagonista e blocco
                 if (areCollided(contact, "player", "block")) {
                     player.setAlive(false);
                     bgMusic.stop();

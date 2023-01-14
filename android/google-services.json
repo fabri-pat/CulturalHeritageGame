@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "959040324329",
+    "project_id": "culturalheritagegame",
+    "storage_bucket": "culturalheritagegame.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959040324329:android:d9ba4dea4e154fe43ba678",
+        "android_client_info": {
+          "package_name": "it.uniba.sms222325"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "959040324329-6ckqgqps80ur68vfikej2ajta0t515bo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAgi7DZN8a36UWrj6liL-0gJaMFWINLI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "959040324329-6ckqgqps80ur68vfikej2ajta0t515bo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

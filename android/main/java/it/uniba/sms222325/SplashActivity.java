@@ -8,15 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 import java.lang.ref.WeakReference;
 
 public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG_LOG = SplashActivity.class.getName();
 
-    private static final long MIN_WAIT_INTERVAL = 4500L;
-    private static final long MAX_WAIT_INTERVAL = 4500L;
+    private static final long MIN_WAIT_INTERVAL = 3500L;
+    private static final long MAX_WAIT_INTERVAL = 3500L;
     private static final int GO_AHEAD_WHAT = 1;
 
     private long mStartTime;
@@ -62,7 +61,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void goAhead() {
-        final Intent intent = new Intent(this, AndroidLauncher.class);
+        final Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }
@@ -72,7 +71,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        int uiOptions = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         decorView.setSystemUiVisibility(uiOptions);
         mHandler = new UiHandler(this);
     }

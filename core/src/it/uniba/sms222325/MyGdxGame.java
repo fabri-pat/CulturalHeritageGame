@@ -43,7 +43,6 @@ public class MyGdxGame extends Game {
         menuScreen = new MenuScreen(this);
         gameScreen = new GameScreen(this);
         gameOverScreen = new GameOverScreen(this);
-        setScreen(menuScreen);
+        setScreen(gameScreen);
     }
-
 }
