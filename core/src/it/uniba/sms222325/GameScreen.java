@@ -33,7 +33,8 @@ public class GameScreen extends BaseScreen {
     private List<BlockEntity> blockList = new ArrayList<BlockEntity>();
     private Sound jumpSound, dieSound;
     private Music bgMusic;
-    private boolean playerHasDied = false;
+    private float diffMultiplier = 1;
+
 
     public GameScreen(final MyGdxGame game) {
         super(game);
@@ -44,11 +45,11 @@ public class GameScreen extends BaseScreen {
         bgMusic = game.getManager().get("audio/song.ogg");
 
         stage = new Stage(new FitViewport(640, 360));           // imposto la finestra a 640*360px
-        world = new World(new Vector2(0, -10), true);       // creo un ambiente in cui ho -10 di gravità (quasi a quella terrestre che è -9.8)
+        world = new World(new Vector2(0, -9), true);       // creo un ambiente in cui ho -9 di gravità (quasi a quella terrestre che è -9.8)
 
         world.setContactListener(new ContactListener() {
 
-            // funzione di utilità
+            // funzione di utilità, verifica che due attori siano in collisione
             private boolean areCollided(Contact contact, Object userA, Object userB) {
                 return (contact.getFixtureA().getUserData().equals(userA) && contact.getFixtureB().getUserData().equals(userB)) || (contact.getFixtureA().getUserData().equals(userB) && contact.getFixtureB().getUserData().equals(userA));
             }
@@ -59,11 +60,7 @@ public class GameScreen extends BaseScreen {
 
                 // collisione tra protagonista e terreno
                 if (areCollided(contact, "player", "soil")) {
-                    player.setJumping(false);
-                    if (Gdx.input.isTouched()) {        // per far saltare il protagonista, tenendo premuto lo schermo
-                        jumpSound.play();
-                        player.setMustJump(true);
-                    }
+                    player.setOnFloor(true);
                 }
 
                 // collisione tra protagonista e blocco
@@ -71,7 +68,6 @@ public class GameScreen extends BaseScreen {
                     player.setAlive(false);
                     bgMusic.stop();
                     dieSound.play();
-                    playerHasDied = true;
 
                     stage.addAction(Actions.sequence(
                             Actions.delay(1.5f),
@@ -87,7 +83,9 @@ public class GameScreen extends BaseScreen {
 
             @Override
             public void endContact(Contact contact) {
-
+                if (areCollided(contact, "player", "soil")) {
+                    player.setOnFloor(false);
+                }
             }
 
             @Override
@@ -116,6 +114,7 @@ public class GameScreen extends BaseScreen {
         blockList.add(new BlockEntity(world, blockTexture, 7, 1));      // al valore y s'intende il livello dello strato di terreno sopra il quale verrà poszionato il blocco
         blockList.add(new BlockEntity(world, blockTexture, 17, 2));
         blockList.add(new BlockEntity(world, blockTexture, 26, 1));
+
         for (SoilEntity soil : soilList) {
             stage.addActor(soil);
         }
@@ -141,6 +140,9 @@ public class GameScreen extends BaseScreen {
             block.detach();
             block.remove();
         }
+
+        soilList.clear();
+        blockList.clear();
     }
 
     // funzione che renderizza tot frames al secondo
@@ -148,8 +150,12 @@ public class GameScreen extends BaseScreen {
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);		// tinge lo schermo di un colore
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);		// pulisce la scheda video da immagini precedenti
 
-        if (playerHasDied && player.getX() == 0) {
-            playerHasDied = false;
+        if (Gdx.input.isTouched()  &&  player.isOnFloor()) {        // per far saltare il protagonista, tenendo premuto lo schermo
+            jumpSound.play();
+            player.jump();
+        }
+
+        if (player.getX() == 0 && player.isAlive() == true) {
             stage.getCamera().position.set(320, 180, 0);        // reset della visuale nella posizione iniziale
             stage.getCamera().update();
         }
@@ -158,10 +164,6 @@ public class GameScreen extends BaseScreen {
             stage.getCamera().translate(PLAYER_SPEED * delta * PIXELS_IN_METER, 0, 0);      // sposto la visuale con l'avanzare del giocatore
         }
 
-        if (Gdx.input.justTouched()) {
-            jumpSound.play();
-            player.jump();
-        }
 
         stage.act();        // prima di introdurre le forze in campo
         world.step(delta, 6, 2);        // applicazione delle forze
