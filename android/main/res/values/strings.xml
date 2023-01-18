@@ -22,5 +22,7 @@
     <string name="login_successful">Login effettuato con successo!</string>
     <string name="Login_failed">Login non effettuato. Credenziali non corrette.</string>
     <string name="wrong_email_format_provided">Il valore inserito non è una e-mail.</string>
+    <string name="welcomeMessageLogin">Bentornato</string>
+    <string name="googleLoginFailure">Qualcosa è andato storto. Login non effettuato.</string>
 
 </resources>

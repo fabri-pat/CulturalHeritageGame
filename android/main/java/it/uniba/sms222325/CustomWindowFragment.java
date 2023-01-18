@@ -13,9 +13,6 @@ public class CustomWindowFragment extends Fragment {
     Fragment fragment;
     String titleWindow;
 
-    public CustomWindowFragment(Fragment fragment) {
-        this.fragment = fragment;
-    }
     public CustomWindowFragment(Fragment fragment, String titleWindow) {
         this.fragment = fragment;
         this.titleWindow = titleWindow;
@@ -33,9 +30,7 @@ public class CustomWindowFragment extends Fragment {
         TextView text = view.findViewById(R.id.actionBarTitle);
         ImageButton imageButton = view.findViewById(R.id.backButton);
 
-        imageButton.setOnClickListener(l -> {
-            getParentFragmentManager().popBackStack();
-        });
+        imageButton.setOnClickListener(l -> getParentFragmentManager().popBackStack());
 
         if(titleWindow == null)
             text.setText("");

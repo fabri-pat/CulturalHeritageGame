@@ -6,12 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
-
-import com.badlogic.gdx.backends.android.AndroidApplication;
-import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication;
 /*
 public class AndroidLauncher extends AndroidApplication {
@@ -51,7 +47,7 @@ public class AndroidLauncher extends FragmentActivity implements AndroidFragment
 	public static class GameFragment extends AndroidFragmentApplication
 	{
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			return initializeForView(new MyGdxGame());
 		}
 	}

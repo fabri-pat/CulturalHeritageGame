@@ -1,8 +1,7 @@
 package it.uniba.sms222325;
 
-import android.annotation.TargetApi;
+
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -11,13 +10,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import java.lang.ref.WeakReference;
 
-@TargetApi(31)
+
 public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG_LOG = SplashActivity.class.getName();
@@ -37,7 +36,6 @@ public class SplashActivity extends AppCompatActivity {
      */
     private static class UiHandler extends Handler {
         private final WeakReference<SplashActivity> mActivityRef;
-
         public UiHandler(final SplashActivity splashActivity){
             this.mActivityRef = new WeakReference<>(splashActivity);
         }
@@ -96,5 +94,9 @@ public class SplashActivity extends AppCompatActivity {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account != null)
             Toast.makeText(this, "Benvenuto " + account.getDisplayName(), Toast.LENGTH_SHORT).show();
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null)
+            Toast.makeText(this, "Firebase: " + user.getEmail(), Toast.LENGTH_SHORT).show();
     }
 }
