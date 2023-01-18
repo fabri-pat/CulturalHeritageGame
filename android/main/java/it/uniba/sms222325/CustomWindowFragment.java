@@ -37,7 +37,6 @@ public class CustomWindowFragment extends Fragment {
             getParentFragmentManager().popBackStack();
         });
 
-
         if(titleWindow == null)
             text.setText("");
         else

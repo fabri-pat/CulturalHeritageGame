@@ -9,5 +9,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="mainmenu_bg_color">#001E2C</color>
+    <color name="mainmenu_bg_color">#79B2CE</color>
+    <color name="salmon">#CE79C3</color>
 </resources>

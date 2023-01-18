@@ -55,11 +55,6 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
-        implementation "com.google.android.gms:play-services-games-v2:17.0.0"
-
-        implementation platform('com.google.firebase:firebase-bom:31.1.1')
-        implementation 'com.google.firebase:firebase-auth'
-        implementation 'com.google.android.gms:play-services-auth:20.4.0'
     }
 }
 

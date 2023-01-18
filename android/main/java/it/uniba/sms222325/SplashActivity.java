@@ -1,6 +1,8 @@
 package it.uniba.sms222325;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
@@ -8,8 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+
 import java.lang.ref.WeakReference;
 
+@TargetApi(31)
 public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG_LOG = SplashActivity.class.getName();
@@ -57,6 +65,7 @@ public class SplashActivity extends AppCompatActivity {
         mStartTime = SystemClock.uptimeMillis();
         final Message goAheadMessage = mHandler.obtainMessage(GO_AHEAD_WHAT);
         mHandler.sendMessageAtTime(goAheadMessage, mStartTime + MAX_WAIT_INTERVAL);
+        isUserAlreadyLogged();
         Log.d(TAG_LOG, "Handler message sent!");
     }
 
@@ -81,5 +90,11 @@ public class SplashActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
+    }
+
+    private void isUserAlreadyLogged(){
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (account != null)
+            Toast.makeText(this, "Benvenuto " + account.getDisplayName(), Toast.LENGTH_SHORT).show();
     }
 }

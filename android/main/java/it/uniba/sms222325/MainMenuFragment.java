@@ -26,23 +26,26 @@ public class MainMenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main_menu, container, false);
         Button settingsButton = view.findViewById(R.id.settingsButton);
         Button playButton = view.findViewById(R.id.playButton);
+        FragmentActivity fragmentActivity = getActivity();
 
         settingsButton.setOnClickListener(lst -> {
-            FragmentActivity fragmentActivity = getActivity();
-            fragmentActivity.getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.container, new CustomWindowFragment(new SettingsFragment(), "Impostazioni"))
-                    .addToBackStack("mainmenu")
-                    .commit();
+            if (fragmentActivity != null){
+                fragmentActivity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, new CustomWindowFragment(new SettingsFragment(), "Impostazioni"))
+                        .addToBackStack("mainmenu")
+                        .commit();
+            }
         });
 
         playButton.setOnClickListener(lst -> {
-            FragmentActivity fragmentActivity = getActivity();
-            fragmentActivity.getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.container, new GameFragment())
-                    .addToBackStack("mainmenu")
-                    .commit();
+            if (fragmentActivity != null) {
+                fragmentActivity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.container, new GameFragment())
+                        .addToBackStack("mainmenu")
+                        .commit();
+            }
         });
         return view;
     }
