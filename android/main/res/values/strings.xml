@@ -24,9 +24,8 @@
     <string name="wrong_email_format_provided">Il valore inserito non è una e-mail.</string>
     <string name="welcomeMessageLogin">Bentornato</string>
     <string name="googleLoginFailure">Qualcosa è andato storto. Login non effettuato.</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="accediText">Accedi</string>
+    <string name="loginText">Accedi</string>
+    <string name="registerText">Registrati</string>
     <string name="registerTextView">Non hai un account?\nClicca qui per registrarti</string>
     <string name="loginEmailEditText">E-mail</string>
     <string name="loginPasswordEditText">Password</string>
