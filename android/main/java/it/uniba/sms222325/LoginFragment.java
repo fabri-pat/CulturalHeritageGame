@@ -7,7 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -15,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -29,9 +36,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.regex.Pattern;
 
-public class AccountFragment extends Fragment {
+public class LoginFragment extends Fragment {
     private GoogleSignInClient googleSignInClient;
-    private Activity myActivity;
+    private FragmentActivity myActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,13 +57,21 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_account, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         EditText loginEmail = view.findViewById(R.id.loginEmail);
         EditText loginPassword = view.findViewById(R.id.loginPassword);
         Button loginButton = view.findViewById(R.id.loginButton);
         SignInButton loginWithGoogleButton = view.findViewById(R.id.sign_in_button);
+        View registerPageText = view.findViewById(R.id.registerTextView);
+
+        registerPageText.setOnClickListener(x ->
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.containerSettings, new RegisterFragment())
+                    .commit()
+        );
 
         loginButton.setOnClickListener(v -> {
             String email = loginEmail.getText().toString().trim();
@@ -115,4 +130,6 @@ public class AccountFragment extends Fragment {
 
         return view;
     }
+
+
 }
