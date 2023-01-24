@@ -34,4 +34,5 @@
     <string name="registerEmailEditText">E-mail</string>
     <string name="registerPasswordEditText">Password</string>
     <string name="registerRegisterButton">Registrati</string>
+    <string name="loginTextView">Hai già un account?\nClicca qui per accedere</string>
 </resources>

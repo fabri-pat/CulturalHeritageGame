@@ -19,6 +19,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -66,12 +67,19 @@ public class LoginFragment extends Fragment {
         SignInButton loginWithGoogleButton = view.findViewById(R.id.sign_in_button);
         View registerPageText = view.findViewById(R.id.registerTextView);
 
-        registerPageText.setOnClickListener(x ->
+        registerPageText.setOnClickListener(x -> {
+            View v = (View)x.getParent().getParent().getParent().getParent();
+
+            RotateAnimation rotateAnimation = new RotateAnimation(180, 360, v.getPivotX(), v.getPivotY());
+            rotateAnimation.setFillAfter(false);
+            rotateAnimation.setDuration(400);
+            v.startAnimation(rotateAnimation);
+
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.containerSettings, new RegisterFragment())
-                    .commit()
-        );
+                    .commit();
+        });
 
         loginButton.setOnClickListener(v -> {
             String email = loginEmail.getText().toString().trim();
@@ -106,7 +114,6 @@ public class LoginFragment extends Fragment {
                             firebaseAuth.signInWithCredential(firebaseCredential)
                                     .addOnCompleteListener(myActivity, task -> {
                                         if (task.isSuccessful()) {
-                                            // TODO: Update UI
                                             Log.d(TAG, "signInWithCredential:success");
                                             FirebaseUser user = firebaseAuth.getCurrentUser();
 

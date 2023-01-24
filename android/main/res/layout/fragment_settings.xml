@@ -104,6 +104,7 @@
                 tools:ignore="UselessParent">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardFragmentContainerSettings"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
