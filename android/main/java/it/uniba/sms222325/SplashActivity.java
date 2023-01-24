@@ -1,9 +1,12 @@
 package it.uniba.sms222325;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
