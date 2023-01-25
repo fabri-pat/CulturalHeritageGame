@@ -25,7 +25,7 @@ public class UserRepository {
     }
 
     /**
-     * Creates a task that control if already exists a User stored in the database with the specified field and value.
+     * Creates a task that returns the first reference if already exists a User stored in the database with the specified field and value.
      * @param field The name of the field to compare
      * @param value The value for comparison
      * @return The created task

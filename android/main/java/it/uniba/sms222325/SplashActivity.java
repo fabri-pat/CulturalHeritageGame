@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.lang.ref.WeakReference;
+
+import it.uniba.sms222325.entities.User;
 import it.uniba.sms222325.repositories.UserRepository;
 
 

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--TODO:RENAME STRING VALUE WITH NAMING CONVENTION (btn_ / label_ etc)-->
     <string name="app_name">Cultural Heritage Game</string>
 
     <string name="btn_info">Informazioni</string>
@@ -12,21 +14,18 @@
     <string name="btn_settings">Impostazioni</string>
     <string name="btn_continue">Continua</string>
     <string name="actionBarCustomTitle">Placeholder, modifica attraverso java il titolo</string>
-    <string name="no_email_provided">Il campo email non può essere vuoto.</string>
-    <string name="no_password_provided">Il campo password non può essere vuoto.</string>
 
     <string name="splash_image_description">Logo centrale avvio applicazione, è il \'Pantheon\'</string>
     <string name="btn_settings_description">Bottone impostazioni</string>
     <string name="btn_profile_description">Bottone profilo</string>
     <string name="iconBackDescription">Pulsante navigazione indietro</string>
     <string name="login_successful">Login effettuato con successo!</string>
-    <string name="Login_failed">Login non effettuato. Credenziali non corrette.</string>
-    <string name="wrong_email_format_provided">Il valore inserito non è una e-mail.</string>
-    <string name="welcomeMessageLogin">Bentornato</string>
-    <string name="googleLoginFailure">Qualcosa è andato storto. Login non effettuato.</string>
+    <string name="login_failed">Login non effettuato. Credenziali non corrette.</string>
+    <string name="label_wrong_email_format_provided">Il valore inserito non è una e-mail.</string>
+    <string name="label_welcome_back">Bentornato</string>
     <string name="loginText">Accedi</string>
     <string name="registerText">Registrati</string>
-    <string name="registerTextView">Non hai un account?\nClicca qui per registrarti</string>
+    <string name="registerTextView">Non hai un account?\nTocca qui per registrarti</string>
     <string name="loginEmailEditText">E-mail</string>
     <string name="loginPasswordEditText">Password</string>
     <string name="loginButton">Accedi</string>
@@ -34,5 +33,11 @@
     <string name="registerEmailEditText">E-mail</string>
     <string name="registerPasswordEditText">Password</string>
     <string name="registerRegisterButton">Registrati</string>
-    <string name="loginTextView">Hai già un account?\nClicca qui per accedere</string>
+    <string name="loginTextView">Hai già un account?\nTocca qui per accedere</string>
+    <string name="label_field_required_error">Questo campo è obbligatorio.</string>
+    <string name="label_welcome_message">Benvenuto</string>
+    <string name="label_email_already_used_error">Questa mail è già in uso.</string>
+    <string name="label_username_already_used_error">Questo username è già in uso.</string>
+    <string name="label_provide_internet_error">Qualcosa è andato storto. Verificare la connesione internet e riprovare</string>
+    <string name="label_google_account_already_registered_error">Account già registrato. Accedi o registra un nuovo account</string>
 </resources>

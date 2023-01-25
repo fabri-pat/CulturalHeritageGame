@@ -3,10 +3,13 @@ package it.uniba.sms222325;
 import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
+import android.app.admin.NetworkEvent;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import android.util.Log;
@@ -23,8 +26,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -51,9 +57,12 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        return  inflater.inflate(R.layout.fragment_login, container, false);
+    }
 
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         EditText loginEmail = view.findViewById(R.id.loginEmail);
         EditText loginPassword = view.findViewById(R.id.loginPassword);
@@ -62,6 +71,8 @@ public class LoginFragment extends Fragment {
         View registerPageText = view.findViewById(R.id.registerTextView);
 
         registerPageText.setOnClickListener(x -> {
+
+            //TODO:Improve animation
             View v = (View)x.getParent().getParent().getParent().getParent();
 
             RotateAnimation rotateAnimation = new RotateAnimation(180, 360, v.getPivotX(), v.getPivotY());
@@ -81,9 +92,9 @@ public class LoginFragment extends Fragment {
 
             if (email.isEmpty() || password.isEmpty()) {
                 if (email.isEmpty())
-                    loginEmail.setError(getString(R.string.no_email_provided));
+                    loginEmail.setError(getString(R.string.label_field_required_error));
                 if (password.isEmpty())
-                    loginPassword.setError(getString(R.string.no_password_provided));
+                    loginPassword.setError(getString(R.string.label_field_required_error));
                 return;
             }
 
@@ -91,9 +102,14 @@ public class LoginFragment extends Fragment {
                 firebaseAuth
                         .signInWithEmailAndPassword(email, password)
                         .addOnSuccessListener(s -> Toast.makeText(this.getContext(), getString(R.string.login_successful), Toast.LENGTH_SHORT).show())
-                        .addOnFailureListener(f -> Toast.makeText(this.getContext(), getString(R.string.Login_failed), Toast.LENGTH_SHORT).show());
+                        .addOnFailureListener(f -> {
+                            if (f instanceof FirebaseNetworkException)
+                                Toast.makeText(this.getContext(), getString(R.string.label_provide_internet_error), Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(this.getContext(), getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
+                        });
             else
-                loginEmail.setError(getString(R.string.wrong_email_format_provided));
+                loginEmail.setError(getString(R.string.label_wrong_email_format_provided));
         });
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
@@ -115,16 +131,18 @@ public class LoginFragment extends Fragment {
                                             UserRepository.getInstance().getUser("email", user.getEmail()).addOnCompleteListener(task1 -> {
                                                 if (task1.getResult() != null) {
                                                     String userDisplayName = task1.getResult().getUsername();
-                                                    String welcomeLoginMessage = getString(R.string.welcomeMessageLogin) + " " + userDisplayName;
+                                                    String welcomeLoginMessage = getString(R.string.label_welcome_back) + " " + userDisplayName;
                                                     Toast.makeText(getContext(), welcomeLoginMessage, Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                         } else {
                                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                                            Toast.makeText(getContext(),getString(R.string.googleLoginFailure),Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(),getString(R.string.label_provide_internet_error),Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }
+                    } else {
+                        Toast.makeText(getContext(), getString(R.string.label_provide_internet_error), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -132,9 +150,5 @@ public class LoginFragment extends Fragment {
             Intent loginWithGoogleIntent = googleSignInClient.getSignInIntent();
             activityResultLauncher.launch(loginWithGoogleIntent);
         });
-
-        return view;
     }
-
-
 }

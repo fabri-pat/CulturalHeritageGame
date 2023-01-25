@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class CustomWindowFragment extends Fragment {
@@ -26,7 +28,12 @@ public class CustomWindowFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.window_fragment_container, container, false);
+        return inflater.inflate(R.layout.window_fragment_container, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         TextView text = view.findViewById(R.id.actionBarTitle);
         ImageButton imageButton = view.findViewById(R.id.backButton);
 
@@ -41,6 +48,5 @@ public class CustomWindowFragment extends Fragment {
                 .beginTransaction()
                 .add(R.id.customFragmentContainer, fragment)
                 .commit();
-        return view;
     }
 }

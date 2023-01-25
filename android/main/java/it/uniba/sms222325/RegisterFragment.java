@@ -33,9 +33,10 @@ import it.uniba.sms222325.entities.User;
 import it.uniba.sms222325.repositories.UserRepository;
 
 public class RegisterFragment extends Fragment {
-    GoogleSignInClient googleSignInClient;
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    Activity myActivity;
+    private final String EMAIL_FIELD = "email";
+    private GoogleSignInClient googleSignInClient;
+    private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private Activity myActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,39 +90,38 @@ public class RegisterFragment extends Fragment {
 
             if(username.isEmpty() || email.isEmpty() || password.isEmpty()){
                 if (username.isEmpty())
-                    registerUsername.setError("Questo campo è obbligatorio.");
+                    registerUsername.setError(getString(R.string.label_field_required_error));
                 if (email.isEmpty())
-                    registerEmail.setError("Questo campo è obbligatorio");
+                    registerEmail.setError(getString(R.string.label_field_required_error));
                 if (password.isEmpty())
-                    registerPassword.setError("questo campo è obbligatorio");
+                    registerPassword.setError(getString(R.string.label_field_required_error));
                 return;
             }
 
-            try {
-                userRepository.getUserByUsername(username).addOnCompleteListener(new OnCompleteListener<User>() {
-                    @Override
-                    public void onComplete(@NonNull Task<User> task) {
-
+            userRepository.getUserByUsername(username).addOnCompleteListener(new OnCompleteListener<User>() {
+                @Override
+                public void onComplete(@NonNull Task<User> task) {
+                    try {
                         if (task.getResult() == null) {
-                            userRepository.getUser("email", email)
+                            userRepository.getUser(EMAIL_FIELD, email)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.getResult() == null) {
                                             userRepository.addUser(new User(username, email));
                                             firebaseAuth.createUserWithEmailAndPassword(email, password);
-                                            Toast.makeText(getContext(), "Benvenuto " + username, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), getString(R.string.label_welcome_message) + " " + username, Toast.LENGTH_SHORT).show();
                                         } else {
-                                            registerEmail.setError("Email already in use.");
+                                            registerEmail.setError(getString(R.string.label_email_already_used_error));
                                         }
                                     });
                         } else {
-                            Log.d(this.getClass().toString(), "User already exists");
-                            registerUsername.setError("Username already exists.");
+                            Log.d(this.getClass().toString(), "Register error: User already exists");
+                            registerUsername.setError(getString(R.string.label_username_already_used_error));
                         }
+                    }catch (IllegalStateException | IllegalArgumentException | RuntimeExecutionException e) {
+                        Toast.makeText(getContext(), getString(R.string.label_provide_internet_error), Toast.LENGTH_SHORT).show();
                     }
-                });
-            } catch (IllegalStateException | IllegalArgumentException | RuntimeExecutionException e) {
-                Toast.makeText(getContext(), "Qualcosa è andato storto. Verificare la connesione internet e riprovare", Toast.LENGTH_SHORT).show();
-            }
+                }
+            });
         });
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
@@ -133,7 +133,7 @@ public class RegisterFragment extends Fragment {
                         String email = googleSignInAccountTask.getResult().getEmail();
                         String username = registerUsername.getText().toString();
 
-                        UserRepository.getInstance().getUser("email", email).addOnCompleteListener(task -> {
+                        UserRepository.getInstance().getUser(EMAIL_FIELD, email).addOnCompleteListener(task -> {
                             if (task.getResult() == null) {
                                 String idToken = googleSignInAccountTask.getResult().getIdToken();
 
@@ -146,18 +146,18 @@ public class RegisterFragment extends Fragment {
                                                         UserRepository.getInstance()
                                                                 .addUser(new User(username, email))
                                                                 .addOnCompleteListener(
-                                                                        task2 -> Toast.makeText(getContext(), "Benvenuto " + username, Toast.LENGTH_SHORT).show()
+                                                                        task2 -> Toast.makeText(getContext(), getString(R.string.label_welcome_message) + " " + username, Toast.LENGTH_SHORT).show()
                                                                 );
                                                     } else {
-                                                        Toast.makeText(getContext(), "Qualcosa è andato storto.", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getContext(), getString(R.string.label_provide_internet_error), Toast.LENGTH_SHORT).show();
                                                     }
                                                 } else {
-                                                    Toast.makeText(getContext(), "Benvenuto " + username, Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getContext(), getString(R.string.label_welcome_message) + " " + username, Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                 }
                             }else {
-                                Toast.makeText(getContext(), "Account google già collegato ad un altro utente.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), getString(R.string.label_google_account_already_registered_error), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -167,16 +167,20 @@ public class RegisterFragment extends Fragment {
             String username = registerUsername.getText().toString().trim();
 
             if(username.isEmpty()){
-                registerUsername.setError("Insert username");
+                registerUsername.setError(getString(R.string.label_field_required_error));
                 return;
             }
 
             userRepository.getUserByUsername(username).addOnCompleteListener(task -> {
-                if (task.getResult() == null) {
-                    Intent signupWithGoogleIntent = googleSignInClient.getSignInIntent();
-                    activityResultLauncher.launch(signupWithGoogleIntent);
-                }else {
-                    registerUsername.setError("Username already in use.");
+                try {
+                    if (task.getResult() == null) {
+                        Intent signupWithGoogleIntent = googleSignInClient.getSignInIntent();
+                        activityResultLauncher.launch(signupWithGoogleIntent);
+                    }else {
+                        registerUsername.setError(getString(R.string.label_username_already_used_error));
+                    }
+                } catch (IllegalStateException | IllegalArgumentException | RuntimeExecutionException e) {
+                    Toast.makeText(getContext(), getString(R.string.label_provide_internet_error), Toast.LENGTH_SHORT).show();
                 }
             });
         });
