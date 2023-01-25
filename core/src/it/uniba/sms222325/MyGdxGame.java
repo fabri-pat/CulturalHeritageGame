@@ -32,6 +32,10 @@ public class MyGdxGame extends Game {
         manager.load("audio/die.ogg", Sound.class);
         manager.load("audio/song.ogg", Music.class);
         manager.load("gameover.png", Texture.class);
+        manager.load("cities/Firenze1.png", Texture.class);
+        manager.load("cities/Pompei1.png", Texture.class);
+        manager.load("cities/Segesta1.png", Texture.class);
+        manager.load("cities/Roma1.png", Texture.class);
         //manager.load("logo.png", Texture.class);
         manager.finishLoading();
 
