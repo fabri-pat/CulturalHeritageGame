@@ -3,16 +3,32 @@
     <!-- Base application theme. -->
     <style name="Theme.CulturalHeritageGame" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimary">@color/primaryDarkColor</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondary">@color/secondaryDarkColor</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:windowFullscreen">true</item>
     </style>
+
+
+    <!-- Button style -->
+    <style name="ButtonStyle">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:textColor">@color/primaryTextButton</item>
+        <item name="android:fontFamily">@font/motley_forces_regular</item>
+        <item name="android:textSize">35sp</item>
+    </style>
+
+    <style name="ButtonMenuStyle">
+        <item name="android:background">@drawable/rounded_menu_button</item>
+        <item name="android:textColor">@color/primaryTextButton</item>
+    </style>
+
+
 </resources>

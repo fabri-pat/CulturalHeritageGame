@@ -11,4 +11,20 @@
 
     <color name="mainmenu_bg_color">#79B2CE</color>
     <color name="salmon">#CE79C3</color>
+
+    //buttons colors
+    <color name="primaryBtnBGround">#00e600</color>
+    <color name="primaryBtnBGroundLight">#21ff21</color>
+    <color name="primaryBtnBGroundDark">#00b800</color>
+    //button text color
+    <color name="primaryTextButton">#ffffe6</color>
+
+    <color name="primaryLightColor">#41a49d</color>
+    <color name="primaryVariantLightColor">#76d6ce</color>
+    <color name="primaryDarkColor">#00756f</color>
+    <color name="primaryVariantDarkColor">#41a49d</color>
+    <color name="secondaryLightColor">#74818c</color>
+    <color name="secondaryDarkColor">#48555f</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#ffffff</color>
 </resources>
