@@ -5,10 +5,11 @@
     <string name="app_name">Cultural Heritage Game</string>
 
     <string name="btn_info">Informazioni</string>
-    <string name="btn_play">Gioca</string>
+    <string name="btn_play">Nuova Partita</string>
+    <string name="btn_playMenu">Gioca</string>
     <string name="splash_text_logo">Calabria Games</string>
     <string name="btn_login">Login</string>
-    <string name="btn_home">Home</string>
+    <string name="btn_menu">Menu</string>
     <string name="btn_profile">Profilo</string>
     <string name="btn_leaderboard">Classifica</string>
     <string name="btn_settings">Impostazioni</string>

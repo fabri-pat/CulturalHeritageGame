@@ -9,91 +9,117 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mainmenu_bg_color">
+        android:background="@color/white"
+        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/homeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="224dp"
-            android:width="220dp"
-            android:height="60dp"
-            android:text="@string/btn_home"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <ImageView
+            android:id="@+id/splash_imageview"
+            android:layout_width="@dimen/splash_size"
+            android:layout_height="@dimen/splash_size"
+            android:contentDescription="@string/splash_image_description"
+            android:src="@mipmap/ic_launcher_foreground"
+            app:layout_constraintBottom_toBottomOf="@+id/gameMenuBtn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.085"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/leaderboardButton"
-            android:layout_width="wrap_content"
+            style="@style/ButtonStyle"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="136dp"
-            android:width="220dp"
-            android:height="60dp"
-            android:text="@string/btn_leaderboard"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.085"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileButton"
-            app:layout_constraintVertical_bias="0.0" />
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="30dp"
+            android:drawableStart="@drawable/icons_leaderboard"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/settingsButton"
+            app:layout_constraintStart_toEndOf="@+id/profileButton"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/settingsButton"
-            android:layout_width="wrap_content"
+            style="@style/ButtonStyle"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="72dp"
-            android:width="220dp"
-            android:height="60dp"
-            android:text="@string/btn_settings"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="20dp"
+            android:drawableStart="@drawable/icons_settings"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.085"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/leaderboardButton"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintStart_toEndOf="@+id/profileButton"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/profileButton"
-            android:layout_width="wrap_content"
+            style="@style/ButtonStyle"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="196dp"
-            android:width="220dp"
-            android:height="60dp"
-            android:text="@string/btn_profile"
+            android:layout_marginBottom="30dp"
+            android:drawableStart="@drawable/icons_profile"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/mainMenuBtn"
+            app:layout_constraintStart_toStartOf="@+id/mainMenuBtn"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <Button
+            android:id="@+id/mainMenuBtn"
+            style="@style/ButtonMenuStyle"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="20dp"
+            android:drawableStart="@drawable/icons_menu_small"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.085"
+            app:layout_constraintHorizontal_bias="0.023"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeButton"
-            app:layout_constraintVertical_bias="0.125" />
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/playButton"
-            android:layout_width="wrap_content"
+            style="@style/ButtonStyle"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="104dp"
-            android:width="220dp"
-            android:height="60dp"
+            android:layout_marginTop="215dp"
+            android:layout_marginEnd="50dp"
             android:text="@string/btn_play"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.915"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/continueButton"
+            style="@style/ButtonStyle"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/btn_continue"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/playButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/playButton"
+            app:layout_constraintTop_toBottomOf="@+id/playButton" />
+
+        <Button
+            android:id="@+id/gameMenuBtn"
+            style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:width="220dp"
-            android:height="60dp"
-            android:text="@string/btn_continue"
+            android:layout_marginBottom="100dp"
+            android:width="240dp"
+            android:height="70dp"
+            android:text="@string/btn_playMenu"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.915"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/playButton" />
+            app:layout_constraintStart_toStartOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
