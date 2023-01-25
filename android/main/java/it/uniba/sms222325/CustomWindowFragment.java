@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,9 +36,9 @@ public class CustomWindowFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView text = view.findViewById(R.id.actionBarTitle);
-        ImageButton imageButton = view.findViewById(R.id.backButton);
+        Button backBtn = view.findViewById(R.id.backButton);
 
-        imageButton.setOnClickListener(l -> getParentFragmentManager().popBackStack());
+        backBtn.setOnClickListener(l -> getParentFragmentManager().popBackStack());
 
         if(titleWindow == null)
             text.setText("");

@@ -50,7 +50,7 @@ public class MainMenuFragment extends Fragment {
         continueBtn.setEnabled(false);
 
         settingsButton.setVisibility(View.INVISIBLE);
-        //settingsButton.setEnabled(false);
+        settingsButton.setEnabled(false);
 
         leaderboardButton.setVisibility(View.INVISIBLE);
         leaderboardButton.setEnabled(false);
@@ -115,13 +115,13 @@ public class MainMenuFragment extends Fragment {
             public void onAnimationStart(Animation animation) {
                 if(cond)
                     element.setVisibility(View.VISIBLE);
-                /*else
-                    element.setEnabled(false);*/
+                if(!cond)
+                    element.setEnabled(false);
             }
             @Override
             public void onAnimationEnd(Animation animation) {
-                /*if(cond)
-                    element.setEnabled(true);*/
+                if(cond)
+                    element.setEnabled(true);
                 if(!cond)
                     element.setVisibility(View.INVISIBLE);
             }

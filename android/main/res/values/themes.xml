@@ -21,13 +21,40 @@
         <item name="android:background">@drawable/rounded_button</item>
         <item name="android:textColor">@color/primaryTextButton</item>
         <item name="android:fontFamily">@font/motley_forces_regular</item>
-        <item name="android:textSize">35sp</item>
+        <item name="android:drawableTint">@color/primaryTextButton</item>
     </style>
 
     <style name="ButtonMenuStyle">
         <item name="android:background">@drawable/rounded_menu_button</item>
         <item name="android:textColor">@color/primaryTextButton</item>
+        <item name="android:drawableTint">@color/primaryTextButton</item>
     </style>
 
+    <!-- Action Bar Color -->
+    <style name="ActionBarStyle">
+        <item name="android:background">@color/complementaryActionBar</item>
+    </style>
+
+    <!-- General Background Color -->
+    <style name="GeneralBGroundStyle">
+        <item name="android:background">@color/generalBGround</item>
+    </style>
+
+    <!-- Window Fragment Background Color -->
+    <style name="windowFragmStyle">
+        <item name="android:background">@color/generalBGround</item>
+    </style>
+
+    <!-- Card Background Color -->
+    <style name="cardBGStyle">
+        <item name="cardBackgroundColor">@color/cardBGround</item>
+    </style>
+
+    <!-- Edit Text Style -->
+    <style name="EditTextStyle">
+        <item name="android:background">@drawable/rounded_edit_text</item>
+        <item name="android:drawableTint">@color/primaryTextButton</item>
+        <item name="android:textColor">@color/primaryTextButton</item>
+    </style>
 
 </resources>

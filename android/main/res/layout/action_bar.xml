@@ -3,16 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/salmon"
-    android:id="@+id/action_bar_container">
+    android:id="@+id/action_bar_container"
+    style="@style/ActionBarStyle">
 
-    <ImageButton
-        android:src="@drawable/ic_action_name"
+    <Button
         android:id="@+id/backButton"
-        android:layout_width="65dp"
-        android:layout_height="40dp"
-        android:background="#00000000"
-        android:textColor="#757575"
+        style="@style/ButtonStyle"
+        android:drawableStart="@drawable/icons_back_btn"
+        android:layout_width="55dp"
+        android:layout_height="30dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.02"

@@ -16,8 +16,28 @@
     <color name="primaryBtnBGround">#00e600</color>
     <color name="primaryBtnBGroundLight">#21ff21</color>
     <color name="primaryBtnBGroundDark">#00b800</color>
-    //button text color
+
+    //text color
     <color name="primaryTextButton">#ffffe6</color>
+
+    //action bar color
+    <!--<color name="complementaryActionBar">#e65500</color>
+    <color name="complementaryActionBarDark">#b84400</color>-->
+    <color name="complementaryActionBar">#96cb53</color>
+    <color name="complementaryActionBarDark">#7ab035</color>
+
+
+    //general background palette color
+    <color name="generalBGround">#a3ac9e</color>
+
+    //window fragment background color
+    <color name="windowFragm">#a5a5a5</color>
+    <color name="windowFragmDark">#848484</color>
+
+    //card background color
+    <color name="cardBGround">#848484</color>
+    <color name="cardBGroundDark">#6a6a6a</color>
+
 
     <color name="primaryLightColor">#41a49d</color>
     <color name="primaryVariantLightColor">#76d6ce</color>

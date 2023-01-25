@@ -9,8 +9,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        style="@style/GeneralBGroundStyle">
 
         <ImageView
             android:id="@+id/splash_imageview"
@@ -87,12 +87,14 @@
             style="@style/ButtonStyle"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="215dp"
-            android:layout_marginEnd="50dp"
+            android:layout_marginStart="4dp"
             android:text="@string/btn_play"
             android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/gameMenuBtn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintStart_toEndOf="@+id/gameMenuBtn"
+            app:layout_constraintTop_toTopOf="@+id/gameMenuBtn" />
 
         <Button
             android:id="@+id/continueButton"
@@ -110,6 +112,7 @@
         <Button
             android:id="@+id/gameMenuBtn"
             style="@style/ButtonStyle"
+            android:textSize="35sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="100dp"
