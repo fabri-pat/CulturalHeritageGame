@@ -97,9 +97,7 @@ public class GameScreen extends BaseScreen {
             public void postSolve(Contact contact, ContactImpulse impulse) {
 
             }
-
         });
-
     }
 
     public void show() {

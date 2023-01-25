@@ -3,6 +3,7 @@ package it.uniba.sms222325;
 import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication;
 
 

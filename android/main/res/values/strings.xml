@@ -25,5 +25,15 @@
     <string name="wrong_email_format_provided">Il valore inserito non è una e-mail.</string>
     <string name="welcomeMessageLogin">Bentornato</string>
     <string name="googleLoginFailure">Qualcosa è andato storto. Login non effettuato.</string>
-
+    <string name="loginText">Accedi</string>
+    <string name="registerText">Registrati</string>
+    <string name="registerTextView">Non hai un account?\nClicca qui per registrarti</string>
+    <string name="loginEmailEditText">E-mail</string>
+    <string name="loginPasswordEditText">Password</string>
+    <string name="loginButton">Accedi</string>
+    <string name="registerUsernameEditText">Username</string>
+    <string name="registerEmailEditText">E-mail</string>
+    <string name="registerPasswordEditText">Password</string>
+    <string name="registerRegisterButton">Registrati</string>
+    <string name="loginTextView">Hai già un account?\nClicca qui per accedere</string>
 </resources>
