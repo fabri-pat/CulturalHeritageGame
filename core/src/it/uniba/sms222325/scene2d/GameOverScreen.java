@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -16,17 +16,16 @@ public class GameOverScreen extends BaseScreen {
 
     private Stage stage;
     private Skin skin;
-    private Image gameover;
-    private TextButton retry, menu;
+    private TextButton retry;
+    private Label gameOver;
 
     public GameOverScreen(final MyGdxGame game) {
         super(game);
 
         stage = new Stage(new FitViewport(640, 360));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        //gameover = new Image(game.getManager().get("gameover.png", Texture.class));
         retry = new TextButton("Retry", skin);
-        menu = new TextButton("Menu", skin);
+        gameOver = new Label("GAME OVER", skin);
 
         retry.addCaptureListener(new ChangeListener() {
             @Override
@@ -35,21 +34,11 @@ public class GameOverScreen extends BaseScreen {
             }
         });
 
-        menu.addCaptureListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(game.menuScreen);
-            }
-        });
-
-        //gameover.setPosition(320 - gameover.getWidth() / 2, 320 - gameover.getHeight());
         retry.setSize(200, 100);
-        menu.setSize(200, 80);
-        retry.setPosition(60, 50);
-        menu.setPosition(380, 50);
+        retry.setPosition(350, 110);
+        gameOver.setPosition(150, 150);
         stage.addActor(retry);
-        stage.addActor(menu);
-        //stage.addActor(gameover);
+        stage.addActor(gameOver);
     }
 
     @Override

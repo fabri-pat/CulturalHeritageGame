@@ -22,6 +22,7 @@ public class PlayerEntity extends Actor {
     private Body body;
     private Fixture fixture;
     private boolean alive = true, onFloor = true;
+    private float actualSpeed = PLAYER_SPEED;
 
     public PlayerEntity(World world, Texture texture, Vector2 position) {
         this.world = world;
@@ -52,7 +53,7 @@ public class PlayerEntity extends Actor {
 
         if (alive) {
             float velocityY = body.getLinearVelocity().y;
-            body.setLinearVelocity(PLAYER_SPEED, velocityY);
+            body.setLinearVelocity(actualSpeed, velocityY);
         }
 
         if (!onFloor) {
@@ -88,5 +89,9 @@ public class PlayerEntity extends Actor {
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
+
+    public float getActualSpeed() { return actualSpeed; }
+
+    public void moreSpeed() { actualSpeed = actualSpeed + 0.2f; }
 
 }

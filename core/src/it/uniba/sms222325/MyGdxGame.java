@@ -14,7 +14,6 @@ public class MyGdxGame extends Game {
     private AssetManager manager;       // con questo gestisco tutti i media in maniera centralizzata
 
     public LoadingScreen loadingScreen;
-    public MenuScreen menuScreen;
     public GameScreen gameScreen;
     public GameOverScreen gameOverScreen;
 
@@ -44,7 +43,6 @@ public class MyGdxGame extends Game {
     }
 
     public void finishLoading() {
-        menuScreen = new MenuScreen(this);
         gameScreen = new GameScreen(this);
         gameOverScreen = new GameOverScreen(this);
         setScreen(gameScreen);

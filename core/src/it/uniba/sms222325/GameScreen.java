@@ -1,7 +1,6 @@
 package it.uniba.sms222325;
 
 import static it.uniba.sms222325.Constants.PIXELS_IN_METER;
-import static it.uniba.sms222325.Constants.PLAYER_SPEED;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -36,15 +35,18 @@ public class GameScreen extends BaseScreen {
     private List<BlockEntity> blockList = new ArrayList<BlockEntity>();
     private Sound jumpSound, dieSound;
     private Music bgMusic;
-    private float diffMultiplier = 1;
     private int score;
     private TextEntity scoreText;
     private Texture backgroundTexture;
     private Sprite backgroundSprite;
     private SpriteBatch batchBackground;        // serve per il draw dello sfondo
+    private final Prefs prefs;      // classe che permette di gestire le informazioni salvabili in locale
+    private int speedPoint = 1000;      // punto di aummento di velocità
 
     public GameScreen(final MyGdxGame game) {
         super(game);
+
+        prefs = new Prefs();
 
         // Carico i media di tipo audio
         jumpSound = game.getManager().get("audio/jump.ogg");
@@ -75,6 +77,10 @@ public class GameScreen extends BaseScreen {
                 // collisione tra protagonista e blocco
                 if (areCollided(contact, "player", "block")) {
                     player.setAlive(false);
+                    if (score > prefs.getHighScore()) {
+                        prefs.setHighScore(score);
+                    }
+                    speedPoint = 1000;      // reset
                     bgMusic.stop();
                     dieSound.play();
 
@@ -201,12 +207,18 @@ public class GameScreen extends BaseScreen {
         }
 
         if (player.getX() > 150 && player.isAlive()) {
-            stage.getCamera().translate(PLAYER_SPEED * delta * PIXELS_IN_METER, 0, 0);      // sposto la visuale con l'avanzare del giocatore
+            stage.getCamera().translate(player.getActualSpeed() * delta * PIXELS_IN_METER, 0, 0);      // sposto la visuale con l'avanzare del giocatore
         }
 
         if (player.isAlive()) {
-            scoreText.updateText("SCORE: " + (int) player.getX());
+            score = (int) player.getX();
+            scoreText.updateText("SCORE: " + score);
             scoreText.updatePosition((int) stage.getCamera().position.x + 180, 20);
+        }
+
+        if (player.getX() > speedPoint && player.isAlive()) {
+            player.moreSpeed();
+            speedPoint = speedPoint + 999;
         }
 
         batchBackground.begin();
