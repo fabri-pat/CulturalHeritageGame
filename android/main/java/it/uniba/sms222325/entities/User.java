@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class User {
     private String username;
@@ -16,6 +17,12 @@ public class User {
         this.username = username;
         this.email = email;
         this.bestScore = 0;
+    }
+
+    public User(@NonNull String username, @NonNull String email, @NonNull Integer bestScore) {
+        this.username = username;
+        this.email = email;
+        this.bestScore = bestScore;
     }
 
     public String getUsername() {
@@ -46,5 +53,18 @@ public class User {
                 ", email='" + email + '\'' +
                 ", bestScore=" + bestScore +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return username.equals(user.username) || email.equals(user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, email);
     }
 }

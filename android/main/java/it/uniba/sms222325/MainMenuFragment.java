@@ -1,19 +1,17 @@
 package it.uniba.sms222325;
 
 import android.os.Bundle;
-
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 
 public class MainMenuFragment extends Fragment {
@@ -87,6 +85,16 @@ public class MainMenuFragment extends Fragment {
                 playButton.setEnabled(true);
                 //TODO: controllare prima se c'è una partita salvata
                 continueBtn.setEnabled(false);
+            }
+        });
+
+        leaderboardButton.setOnClickListener(v -> {
+            if(fragmentActivity != null){
+                fragmentActivity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, new CustomWindowFragment(new LeaderboardFragment(), "Leaderboard"))
+                        .addToBackStack("mainmenu")
+                        .commit();
             }
         });
 

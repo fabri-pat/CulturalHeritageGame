@@ -1,10 +1,15 @@
 package it.uniba.sms222325;
 
-import androidx.fragment.app.FragmentActivity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.fragment.app.FragmentActivity;
+
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication;
+
+import it.uniba.sms222325.entities.User;
 
 
 public class MainActivity extends FragmentActivity implements AndroidFragmentApplication.Callbacks{
@@ -12,9 +17,13 @@ public class MainActivity extends FragmentActivity implements AndroidFragmentApp
     final int uiOptions = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 
+    private User loggedUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        loggedUser = setLoggedUserIfExists();
 
         View decorView = getWindow().getDecorView();
 
@@ -30,7 +39,7 @@ public class MainActivity extends FragmentActivity implements AndroidFragmentApp
 
     /**
      * When the main activity starts check if user is already logged-in.
-     * If 'GoogleSignIn.getLastSignedInAccount' returns null, user isn't logged-in
+     *
      * TODO: Get from remote repository user profile
      * TODO: In account settings hide sign-in button and show logout button, if user isn't logged-in on the contrary
      * TODO: In main menu set clickable leaderboard button, if user ins't logged-in on the contrary
@@ -56,5 +65,22 @@ public class MainActivity extends FragmentActivity implements AndroidFragmentApp
 
     @Override
     public void exit() {
+    }
+
+    private User setLoggedUserIfExists(){
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.user_session_shared_preferences), Context.MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+
+        if (username.isEmpty())
+            return null;
+
+        String email = sharedPreferences.getString("email", "");
+        int bestScore = sharedPreferences.getInt("bestScore", 0);
+
+        return new User(username, email, bestScore);
+    }
+
+    public User getLoggedUser() {
+        return loggedUser;
     }
 }

@@ -4,10 +4,10 @@ import com.google.android.gms.tasks.RuntimeExecutionException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import java.util.List;
 import it.uniba.sms222325.entities.User;
 
-//TODO: write documentation
 public class UserRepository {
     private static UserRepository myUserRepositoryInstance = null;
     private final CollectionReference userCollection;
@@ -66,5 +66,26 @@ public class UserRepository {
      */
     public Task<Void> addUser(User user) throws IllegalArgumentException{
         return userCollection.document(user.getUsername()).set(user);
+    }
+
+    /**
+     * Creates a task that return a list of users ordered by best scores.
+     * The list is ordered in descending direction.
+     * @return The created task
+     */
+    public Task<List<User>> getLeaderboard() {
+        return userCollection.orderBy("bestScore", Query.Direction.DESCENDING)
+                .get()
+                .continueWith(task -> task.getResult().toObjects(User.class));
+    }
+
+    /**
+     * Creates a task that update the specified user's best score
+     * @param username The username of the user
+     * @param score The new score to update
+     * @return The created task
+     */
+    public Task<Void> updateBestScore(String username, int score){
+        return userCollection.document(username).update("bestScore", score);
     }
 }

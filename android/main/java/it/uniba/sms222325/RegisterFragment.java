@@ -3,11 +3,6 @@ package it.uniba.sms222325;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -36,6 +38,7 @@ public class RegisterFragment extends Fragment {
     private final String EMAIL_FIELD = "email";
     private GoogleSignInClient googleSignInClient;
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private final UserRepository userRepository = UserRepository.getInstance();
     private Activity myActivity;
 
     @Override
@@ -67,7 +70,6 @@ public class RegisterFragment extends Fragment {
         Button registerButton = view.findViewById(R.id.registerButton);
         SignInButton registerWithGoogleButton = view.findViewById(R.id.sign_in_button);
         TextView loginTextView = view.findViewById(R.id.loginTextView);
-        UserRepository userRepository = UserRepository.getInstance();
 
         loginTextView.setOnClickListener(l -> {
             View v = (View)l.getParent().getParent().getParent().getParent();
