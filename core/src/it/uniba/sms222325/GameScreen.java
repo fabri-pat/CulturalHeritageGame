@@ -77,8 +77,8 @@ public class GameScreen extends BaseScreen {
                 // collisione tra protagonista e blocco
                 if (areCollided(contact, "player", "block")) {
                     player.setAlive(false);
-                    if (score > prefs.getHighScore()) {
-                        prefs.setHighScore(score);
+                    if (prefs.getUsername() != null && score > prefs.getBestScore()) {
+                        prefs.setBestScore(score);
                     }
                     speedPoint = 1000;      // reset
                     bgMusic.stop();

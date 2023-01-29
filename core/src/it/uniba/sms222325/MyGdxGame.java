@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 
 import it.uniba.sms222325.scene2d.GameOverScreen;
 import it.uniba.sms222325.scene2d.LoadingScreen;
-import it.uniba.sms222325.scene2d.MenuScreen;
 
 public class MyGdxGame extends Game {
 
@@ -36,7 +35,6 @@ public class MyGdxGame extends Game {
         manager.load("cities/Pompei1.png", Texture.class);
         manager.load("cities/Segesta1.png", Texture.class);
         manager.load("cities/Roma1.png", Texture.class);
-        //manager.load("logo.png", Texture.class);
         manager.finishLoading();
 
         loadingScreen = new LoadingScreen(this);

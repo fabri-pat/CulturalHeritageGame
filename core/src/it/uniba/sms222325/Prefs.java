@@ -5,34 +5,36 @@ import com.badlogic.gdx.Preferences;
 
 public class Prefs {
 
-    private Preferences pref;
+    private Preferences daniel;
+    private Preferences fabrizio;
     private boolean hasSound;
-    private int highScore;
+    private int bestScore;
+    private String username;
 
     public Prefs() {
-        pref = Gdx.app.getPreferences("My Preferences");
-        hasSound = pref.getBoolean("hasSound", true);
-        highScore = pref.getInteger("highScore", 0);
+        daniel = Gdx.app.getPreferences("My Preferences");
+        fabrizio = Gdx.app.getPreferences("UserSession");
+        hasSound = daniel.getBoolean("hasSound", true);
+        bestScore = fabrizio.getInteger("bestScore", 0);
+        username = fabrizio.getString("username", null);
     }
 
-    public void setSound(boolean hasSound) {
-        this.hasSound = hasSound;
-        pref.putBoolean("hasSound", hasSound);
-        pref.flush();
-    }
-
-    public void setHighScore(int highScore) {
-        this.highScore = highScore;
-        pref.putInteger("highScore", highScore);
-        pref.flush();
+    public void setBestScore(int bestScore) {
+        this.bestScore = bestScore;
+        fabrizio.putInteger("bestScore", bestScore);
+        fabrizio.flush();
     }
 
     public boolean hasSound() {
         return hasSound;
     }
 
-    public int getHighScore() {
-        return highScore;
+    public int getBestScore() {
+        return bestScore;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
 }
