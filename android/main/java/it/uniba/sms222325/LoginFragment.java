@@ -3,15 +3,9 @@ package it.uniba.sms222325;
 import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
-import android.app.admin.NetworkEvent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -21,25 +15,37 @@ import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
 import java.util.regex.Pattern;
+
+import it.uniba.sms222325.entities.User;
 import it.uniba.sms222325.repositories.UserRepository;
+import it.uniba.sms222325.repositories.UserSessionSharedManager;
 
 public class LoginFragment extends Fragment {
     private GoogleSignInClient googleSignInClient;
     private FragmentActivity myActivity;
+    private UserRepository userRepository;
+    private SharedPreferences userSessionSharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,10 +54,13 @@ public class LoginFragment extends Fragment {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+
         myActivity = getActivity();
 
         if(myActivity != null)
             googleSignInClient = GoogleSignIn.getClient(myActivity, googleSignInOptions);
+
+        userRepository = UserRepository.getInstance();
     }
 
     @Override
@@ -63,6 +72,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         EditText loginEmail = view.findViewById(R.id.loginEmail);
         EditText loginPassword = view.findViewById(R.id.loginPassword);
@@ -101,7 +111,13 @@ public class LoginFragment extends Fragment {
             if (Pattern.matches(Patterns.EMAIL_ADDRESS.toString(), email))
                 firebaseAuth
                         .signInWithEmailAndPassword(email, password)
-                        .addOnSuccessListener(s -> Toast.makeText(this.getContext(), getString(R.string.login_successful), Toast.LENGTH_SHORT).show())
+                        .addOnSuccessListener(s -> {
+                            Toast.makeText(this.getContext(), getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
+                            userRepository.getUser("email", email).addOnCompleteListener(task -> {
+                                User userToSave = task.getResult();
+                                saveOnSharedPreferences(userToSave);
+                            });
+                        })
                         .addOnFailureListener(f -> {
                             if (f instanceof FirebaseNetworkException)
                                 Toast.makeText(this.getContext(), getString(R.string.label_provide_internet_error), Toast.LENGTH_SHORT).show();
@@ -128,11 +144,13 @@ public class LoginFragment extends Fragment {
                                             Log.d(TAG, "signInWithCredential:success");
                                             FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                                            UserRepository.getInstance().getUser("email", user.getEmail()).addOnCompleteListener(task1 -> {
-                                                if (task1.getResult() != null) {
-                                                    String userDisplayName = task1.getResult().getUsername();
+                                            userRepository.getUser("email", user.getEmail()).addOnCompleteListener(task1 -> {
+                                                User userLogged = task1.getResult();
+                                                if (userLogged != null) {
+                                                    String userDisplayName = userLogged.getUsername();
                                                     String welcomeLoginMessage = getString(R.string.label_welcome_back) + " " + userDisplayName;
                                                     Toast.makeText(getContext(), welcomeLoginMessage, Toast.LENGTH_SHORT).show();
+                                                    saveOnSharedPreferences(userLogged);
                                                 }
                                             });
                                         } else {
@@ -150,5 +168,9 @@ public class LoginFragment extends Fragment {
             Intent loginWithGoogleIntent = googleSignInClient.getSignInIntent();
             activityResultLauncher.launch(loginWithGoogleIntent);
         });
+    }
+
+    private void saveOnSharedPreferences(User user){
+        UserSessionSharedManager.saveUserSession(getContext(), user);
     }
 }

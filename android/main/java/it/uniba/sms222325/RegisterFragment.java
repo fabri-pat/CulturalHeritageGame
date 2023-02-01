@@ -33,9 +33,10 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import it.uniba.sms222325.entities.User;
 import it.uniba.sms222325.repositories.UserRepository;
+import it.uniba.sms222325.repositories.UserSessionSharedManager;
 
 public class RegisterFragment extends Fragment {
-    private final String EMAIL_FIELD = "email";
+
     private GoogleSignInClient googleSignInClient;
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final UserRepository userRepository = UserRepository.getInstance();
@@ -51,8 +52,9 @@ public class RegisterFragment extends Fragment {
 
         myActivity = getActivity();
 
-        if(myActivity != null)
+        if(myActivity != null){
             googleSignInClient = GoogleSignIn.getClient(myActivity, googleSignInOptions);
+        }
     }
 
     @Override
@@ -64,6 +66,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         EditText registerUsername = view.findViewById(R.id.registerUsername);
         EditText registerEmail = view.findViewById(R.id.registerEmail);
         EditText registerPassword = view.findViewById(R.id.registerPassword);
@@ -105,12 +108,13 @@ public class RegisterFragment extends Fragment {
                 public void onComplete(@NonNull Task<User> task) {
                     try {
                         if (task.getResult() == null) {
-                            userRepository.getUser(EMAIL_FIELD, email)
+                            userRepository.getUser("email", email)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.getResult() == null) {
                                             userRepository.addUser(new User(username, email));
                                             firebaseAuth.createUserWithEmailAndPassword(email, password);
                                             Toast.makeText(getContext(), getString(R.string.label_welcome_message) + " " + username, Toast.LENGTH_SHORT).show();
+                                            saveOnSharedPreferences(new User(username, email));
                                         } else {
                                             registerEmail.setError(getString(R.string.label_email_already_used_error));
                                         }
@@ -135,7 +139,7 @@ public class RegisterFragment extends Fragment {
                         String email = googleSignInAccountTask.getResult().getEmail();
                         String username = registerUsername.getText().toString();
 
-                        UserRepository.getInstance().getUser(EMAIL_FIELD, email).addOnCompleteListener(task -> {
+                        userRepository.getUser("email", email).addOnCompleteListener(task -> {
                             if (task.getResult() == null) {
                                 String idToken = googleSignInAccountTask.getResult().getIdToken();
 
@@ -145,11 +149,12 @@ public class RegisterFragment extends Fragment {
                                             .addOnCompleteListener(myActivity, task1 -> {
                                                 if (task1.isSuccessful()) {
                                                     if (email != null){
-                                                        UserRepository.getInstance()
+                                                        userRepository
                                                                 .addUser(new User(username, email))
-                                                                .addOnCompleteListener(
-                                                                        task2 -> Toast.makeText(getContext(), getString(R.string.label_welcome_message) + " " + username, Toast.LENGTH_SHORT).show()
-                                                                );
+                                                                .addOnCompleteListener(task2 -> {
+                                                                            Toast.makeText(getContext(), getString(R.string.label_welcome_message) + " " + username, Toast.LENGTH_SHORT).show();
+                                                                            saveOnSharedPreferences(new User(username, email));
+                                                                });
                                                     } else {
                                                         Toast.makeText(getContext(), getString(R.string.label_provide_internet_error), Toast.LENGTH_SHORT).show();
                                                     }
@@ -186,5 +191,9 @@ public class RegisterFragment extends Fragment {
                 }
             });
         });
+    }
+
+    private void saveOnSharedPreferences(User user){
+        UserSessionSharedManager.saveUserSession(getContext(), user);
     }
 }

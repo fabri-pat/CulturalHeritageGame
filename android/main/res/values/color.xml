@@ -16,6 +16,7 @@
     <color name="primaryBtnBGround">#00e600</color>
     <color name="primaryBtnBGroundLight">#21ff21</color>
     <color name="primaryBtnBGroundDark">#00b800</color>
+    <color name="logout_button">#F3F54B3F</color>
 
     //text color
     <color name="primaryTextButton">#ffffe6</color>

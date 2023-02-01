@@ -1,7 +1,6 @@
 package it.uniba.sms222325;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +18,7 @@ import java.lang.ref.WeakReference;
 
 import it.uniba.sms222325.entities.User;
 import it.uniba.sms222325.repositories.UserRepository;
+import it.uniba.sms222325.repositories.UserSessionSharedManager;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -94,28 +94,22 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void isUserAlreadyLogged(){
-        SharedPreferences userSessionSharedPreferences = getSharedPreferences(getString(R.string.user_session_shared_preferences), MODE_PRIVATE);
-        String usernameUserLogged = userSessionSharedPreferences.getString("username", "");
-        SharedPreferences.Editor editor = userSessionSharedPreferences.edit();
+        User user = UserSessionSharedManager.getUserFromSession(this);
 
-        if (usernameUserLogged.isEmpty()) {
+        if (user.getUsername().isEmpty()) {
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-            if(firebaseUser != null) {
+            if (firebaseUser != null) {
                 UserRepository.getInstance().getUser("email", firebaseUser.getEmail()).addOnCompleteListener(task -> {
-                    User user = task.getResult();
-                    if(user != null) {
-                        editor.putString("username", user.getUsername());
-                        editor.putString("email", user.getEmail());
-                        editor.putInt("bestScore", user.getBestScore());
-                        editor.apply();
-
-                        Toast.makeText(getBaseContext(), "Benvenuto " + user.getUsername(), Toast.LENGTH_SHORT).show();
+                    User userLogged = task.getResult();
+                    if (userLogged != null) {
+                        UserSessionSharedManager.saveUserSession(this, userLogged);
+                        Toast.makeText(getBaseContext(), "Benvenuto " + userLogged.getUsername(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
-        } else {
-            Toast.makeText(getBaseContext(), "Benvenuto " + usernameUserLogged, Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(getBaseContext(), "Benvenuto " + user.getUsername(), Toast.LENGTH_SHORT).show();
         }
     }
 }

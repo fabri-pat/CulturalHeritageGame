@@ -40,4 +40,11 @@
     <string name="label_provide_internet_error">Qualcosa è andato storto. Verificare la connesione internet e riprovare</string>
     <string name="label_google_account_already_registered_error">Account già registrato. Accedi o registra un nuovo account</string>
     <string name="user_session_shared_preferences">UserSession</string>
+    <string name="logout_text_button">Esci</string>
+    <string name="account_text_button">Profilo</string>
+    <string name="graphics_text_button">Grafica</string>
+    <string name="info_text_button">Informazioni</string>
+    <string name="audio_text_button">Audio</string>
+    <string name="login_required_text">Accedi per accedere a questa funzionalità.</string>
+    <string name="share_leaderboard_text">Condividi la classifica</string>
 </resources>

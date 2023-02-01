@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:weightSum="10">
+                android:weightSum="8">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -31,14 +31,16 @@
                     android:layout_weight="2"
                     android:padding="3dp">
                     <Button
+                        android:id="@+id/account_button"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Account"
+                        android:text="@string/account_text_button"
                         style="@style/ButtonStyle"
                         android:textSize="25sp">
                     </Button>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -47,28 +49,14 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Grafica"
-                        style="@style/ButtonStyle"
-                        android:textSize="25sp">
-
-                    </Button>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:padding="3dp">
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Audio"
+                        android:text="@string/graphics_text_button"
                         style="@style/ButtonStyle"
                         android:textSize="25sp">
 
                     </Button>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -77,13 +65,13 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Vuoto"
+                        android:text="@string/audio_text_button"
                         style="@style/ButtonStyle"
                         android:textSize="25sp">
 
                     </Button>
-
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -92,12 +80,10 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Informazioni"
+                        android:text="@string/info_text_button"
                         style="@style/ButtonStyle"
                         android:textSize="25sp">
-
                     </Button>
-
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -131,7 +117,7 @@
                             android:id="@+id/containerSettings"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            tools:layout="@layout/fragment_login">
+                            tools:layout="@layout/blank_layout">
                         </androidx.fragment.app.FragmentContainerView>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
