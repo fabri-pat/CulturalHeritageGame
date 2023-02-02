@@ -100,16 +100,16 @@ public class SplashActivity extends AppCompatActivity {
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
             if (firebaseUser != null) {
-                UserRepository.getInstance().getUser("email", firebaseUser.getEmail()).addOnCompleteListener(task -> {
+                UserRepository.getInstance().getUser(UserRepository.EMAIL_FIELD, firebaseUser.getEmail()).addOnCompleteListener(task -> {
                     User userLogged = task.getResult();
                     if (userLogged != null) {
                         UserSessionSharedManager.saveUserSession(this, userLogged);
-                        Toast.makeText(getBaseContext(), "Benvenuto " + userLogged.getUsername(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), getString(R.string.label_welcome_message) + ", " + userLogged.getUsername(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         }else {
-            Toast.makeText(getBaseContext(), "Benvenuto " + user.getUsername(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), getString(R.string.label_welcome_message) + ", " + user.getUsername(), Toast.LENGTH_SHORT).show();
         }
     }
 }

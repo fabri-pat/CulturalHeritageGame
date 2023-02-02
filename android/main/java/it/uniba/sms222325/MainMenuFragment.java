@@ -61,7 +61,7 @@ public class MainMenuFragment extends Fragment {
             if (fragmentActivity != null){
                 fragmentActivity.getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.container, new CustomWindowFragment(new SettingsFragment(), "Impostazioni"))
+                        .replace(R.id.container, new CustomWindowFragment(new SettingsFragment(), getString(R.string.settings_windows_title)))
                         .addToBackStack("mainmenu")
                         .commit();
             }
@@ -92,7 +92,7 @@ public class MainMenuFragment extends Fragment {
             if(fragmentActivity != null){
                 fragmentActivity.getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.container, new CustomWindowFragment(new LeaderboardFragment(), "Leaderboard"))
+                        .replace(R.id.container, new CustomWindowFragment(new LeaderboardFragment(), getString(R.string.leaderboard_windows_title)))
                         .addToBackStack("mainmenu")
                         .commit();
             }

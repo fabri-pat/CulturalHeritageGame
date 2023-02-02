@@ -36,7 +36,7 @@ public class LogoutFragment extends Fragment {
         Button logoutButton = view.findViewById(R.id.logoutButton);
         TextView helloTextView = view.findViewById(R.id.logoutTextView);
 
-        String helloMessage = "Ciao, " + UserSessionSharedManager.getUserFromSession(getContext()).getUsername();
+        String helloMessage = getString(R.string.label_welcome_message) + ", " + UserSessionSharedManager.getUserFromSession(getContext()).getUsername();
         helloTextView.setText(helloMessage);
 
         logoutButton.setOnClickListener(l -> logoutUser());

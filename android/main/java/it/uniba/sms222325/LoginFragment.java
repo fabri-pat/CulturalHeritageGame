@@ -113,7 +113,7 @@ public class LoginFragment extends Fragment {
                         .signInWithEmailAndPassword(email, password)
                         .addOnSuccessListener(s -> {
                             Toast.makeText(this.getContext(), getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
-                            userRepository.getUser("email", email).addOnCompleteListener(task -> {
+                            userRepository.getUser(UserRepository.EMAIL_FIELD, email).addOnCompleteListener(task -> {
                                 User userToSave = task.getResult();
                                 saveOnSharedPreferences(userToSave);
                             });
@@ -144,7 +144,7 @@ public class LoginFragment extends Fragment {
                                             Log.d(TAG, "signInWithCredential:success");
                                             FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                                            userRepository.getUser("email", user.getEmail()).addOnCompleteListener(task1 -> {
+                                            userRepository.getUser(UserRepository.EMAIL_FIELD, user.getEmail()).addOnCompleteListener(task1 -> {
                                                 User userLogged = task1.getResult();
                                                 if (userLogged != null) {
                                                     String userDisplayName = userLogged.getUsername();
