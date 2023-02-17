@@ -81,10 +81,10 @@ public class MainMenuFragment extends Fragment {
         gameMenuBtn.setOnClickListener(v -> {
             if(playButton.getVisibility() == View.INVISIBLE && continueBtn.getVisibility() == View.INVISIBLE) {
                 anim((float)1.5, 0, 0, 0, 1000, playButton, true);
-                anim((float)1.5, 0, 0, 0, 1000, continueBtn, true);
-                playButton.setEnabled(true);
+                anim((float)1.5, 0, 0, 0, 1000, continueBtn, false);
+                //playButton.setEnabled(true);
                 //TODO: controllare prima se c'è una partita salvata
-                continueBtn.setEnabled(false);
+                //continueBtn.setEnabled(false);
             }
         });
 

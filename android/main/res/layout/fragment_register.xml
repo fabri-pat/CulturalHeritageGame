@@ -1,5 +1,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -36,8 +37,10 @@
 
     <EditText
         android:id="@+id/registerUsername"
+        style="@style/EditTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawableStart="@drawable/icons_profile"
         android:ems="10"
         android:hint="@string/registerUsernameEditText"
         android:inputType="textEmailAddress"
@@ -47,37 +50,41 @@
         app:layout_constraintHorizontal_bias="0.976"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.057" />
+        app:layout_constraintVertical_bias="0.04" />
 
     <EditText
         android:id="@+id/registerEmail"
+        style="@style/EditTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawableStart="@drawable/icons_at"
         android:ems="10"
         android:hint="@string/registerEmailEditText"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.976"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.242" />
+        app:layout_constraintEnd_toEndOf="@+id/registerUsername"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/registerUsername"
+        app:layout_constraintTop_toBottomOf="@+id/registerUsername"
+        app:layout_constraintVertical_bias="0.04" />
 
     <EditText
         android:id="@+id/registerPassword"
+        style="@style/EditTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawableStart="@drawable/icons_lock"
         android:ems="10"
         android:hint="@string/registerPasswordEditText"
         android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.976"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.426" />
+        app:layout_constraintEnd_toEndOf="@+id/registerEmail"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/registerEmail"
+        app:layout_constraintTop_toBottomOf="@+id/registerEmail"
+        app:layout_constraintVertical_bias="0.04" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
@@ -92,13 +99,15 @@
 
     <Button
         android:id="@+id/registerButton"
+        style="@style/ButtonStyle"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:text="@string/registerRegisterButton"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.955"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/registerPassword"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/registerPassword"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.955" />
 
