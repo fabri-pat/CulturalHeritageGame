@@ -4,6 +4,7 @@ import static it.uniba.sms222325.Constants.PIXELS_IN_METER;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -45,5 +46,7 @@ public class BlockEntity extends Actor {
         body.destroyFixture(fixture);
         world.destroyBody(body);
     }
+
+    public Vector2 getPosition() { return body.getPosition(); }
 
 }

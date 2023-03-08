@@ -42,6 +42,28 @@ public class PlayerEntity extends Actor {
         setSize(PIXELS_IN_METER, PIXELS_IN_METER);
     }
 
+    public PlayerEntity(World world, Texture texture, Vector2 position, Vector2 velocity) {
+        this.world = world;
+        this.texture = texture;
+
+        BodyDef def = new BodyDef();
+        def.position.set(position);
+        def.type = BodyDef.BodyType.DynamicBody;        // dynamic body perchè si muove
+        body = world.createBody(def);
+
+        PolygonShape playerShape = new PolygonShape();
+        playerShape.setAsBox(0.5f, 0.5f);       // sono x e y a partire dal centro di massa della forma, quindi poi vengono moltiplicati per 2 per ottenere la forma finale
+        fixture = body.createFixture(playerShape, DENSITY);     // fixture = forma che viene renderizzata, collegata al body
+        fixture.setUserData("player");
+        playerShape.dispose();
+
+        setSize(PIXELS_IN_METER, PIXELS_IN_METER);
+
+        body.setLinearVelocity(velocity);
+        actualSpeed = velocity.x;
+        if(velocity.y != 0) onFloor = false;
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         setPosition((body.getPosition().x - 0.5f) * PIXELS_IN_METER, (body.getPosition().y - 0.5f) * PIXELS_IN_METER);      // sottraggo 0.5 perchè draw() che è di Scene2D, non utilizza il centro di massa come per Box2D, ma l'origine è in basso a sinistra
@@ -94,4 +116,9 @@ public class PlayerEntity extends Actor {
 
     public void moreSpeed() { actualSpeed = actualSpeed + 0.2f; }
 
+    public void setActualSpeed(float actualSpeed) { this.actualSpeed = actualSpeed; }
+
+    public Vector2 getPosition() { return body.getPosition(); }
+
+    public float getVerticalSpeed() { return body.getLinearVelocity().y; }
 }

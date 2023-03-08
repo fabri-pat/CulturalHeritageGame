@@ -1,6 +1,7 @@
 package it.uniba.sms222325;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import it.uniba.sms222325.scene2d.GameOverScreen;
 import it.uniba.sms222325.scene2d.LoadingScreen;
+import it.uniba.sms222325.scene2d.PauseScreen;
 
 public class MyGdxGame extends Game {
 
@@ -16,6 +18,7 @@ public class MyGdxGame extends Game {
     public LoadingScreen loadingScreen;
     public GameScreen gameScreen;
     public GameOverScreen gameOverScreen;
+    public PauseScreen pauseScreen;
 
     public AssetManager getManager() {
         return manager;
@@ -44,6 +47,14 @@ public class MyGdxGame extends Game {
     public void finishLoading() {
         gameScreen = new GameScreen(this);
         gameOverScreen = new GameOverScreen(this);
+        pauseScreen = new PauseScreen(this);
         setScreen(gameScreen);
     }
+
+    public void endGame()
+    {
+        Gdx.app.exit();
+    }
+
+
 }

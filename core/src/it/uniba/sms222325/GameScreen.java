@@ -33,15 +33,22 @@ public class GameScreen extends BaseScreen {
     private PlayerEntity player;        // attore protagonista (Scene2D lavora con gli attori)
     private List<SoilEntity> soilList = new ArrayList<SoilEntity>();
     private List<BlockEntity> blockList = new ArrayList<BlockEntity>();
-    private Sound jumpSound, dieSound;
-    private Music bgMusic;
-    private int score;
+    private final Sound jumpSound, dieSound;
+    private final Music bgMusic;
+    private int score, city;
     private TextEntity scoreText;
     private Texture backgroundTexture;
     private Sprite backgroundSprite;
     private SpriteBatch batchBackground;        // serve per il draw dello sfondo
-    private final Prefs prefs;      // classe che permette di gestire le informazioni salvabili in locale
-    private int speedPoint = 1000;      // punto di aummento di velocità
+
+    private int speedPoint = 100;      // punto di aummento di velocità
+
+    private Hud hud;
+
+    private boolean resumed = false;
+    private float resumedSeconds = 0;
+
+    public static Prefs prefs;      // classe che permette di gestire le informazioni salvabili in locale
 
     public GameScreen(final MyGdxGame game) {
         super(game);
@@ -75,14 +82,16 @@ public class GameScreen extends BaseScreen {
                 }
 
                 // collisione tra protagonista e blocco
-                if (areCollided(contact, "player", "block")) {
+                if (areCollided(contact, "player", "block")
+                        && player.isAlive()) {
                     player.setAlive(false);
                     if (prefs.getUsername() != null && score > prefs.getBestScore()) {
                         prefs.setBestScore(score);
                     }
-                    speedPoint = 1000;      // reset
+                    //speedPoint = 1000;      // reset
                     bgMusic.stop();
                     dieSound.play();
+                    prefs.deleteCurrentGame();
 
                     stage.addAction(Actions.sequence(
                             Actions.delay(1.5f),
@@ -121,7 +130,55 @@ public class GameScreen extends BaseScreen {
         Texture soilTexture = game.getManager().get("soil.png");
         Texture blockTexture = game.getManager().get("block.png");
 
-        int city = (int) (Math.random() * (5 - 1 + 1) + 1);     // (Math.random() * (max - min + 1) + min) dove il valore max è escluso, min è incluso
+        if(prefs.isGameSaved()) {
+            System.out.println("Trovati dati di salvataggio");
+            resumed = true;
+            resumedSeconds = 0;
+            // Recupera gli oggetti dal file
+            city = prefs.getSavedCity();
+            System.out.println("City: " + city);
+            List<Float> blocksData = prefs.getSavedBlocks();
+            System.out.println("Blocks: " + blocksData.size()/3);
+            List<Float> playerData = prefs.getSavedPlayer();
+            System.out.println("PlayerData: " + playerData.size());
+            score = prefs.getSavedScore();
+            System.out.println("Score: "+ score);
+
+            player = new PlayerEntity(world, playerTexture, new Vector2(playerData.get(0), playerData.get(1)),
+                    new Vector2(playerData.get(2), playerData.get(3)));
+
+            System.out.println("Blocks in memory: " + blockList.size());
+            for (Float f: blocksData) {
+                blockList.add(new BlockEntity(world, blockTexture, f, 1));
+            }
+
+            soilList.add(new SoilEntity(world, soilTexture, 0, 1000, 1));
+
+            System.out.println("GetX: " + player.getX() + "; position.x: " + player.getPosition().x);
+
+            /*stage.getCamera().position.set(player.getX() +180, 180, 0);   // reset della visuale nella posizione iniziale
+            stage.getCamera().update();*/
+        }
+        else
+        {
+            System.out.println("Nuova Partita");
+            // Altrimenti genera gli oggetti per la nuova partita
+
+            city = (int) (Math.random() * (5 - 1 + 1) + 1);     // (Math.random() * (max - min + 1) + min) dove il valore max è escluso, min è incluso
+
+            player = new PlayerEntity(world, playerTexture, new Vector2(1.5f, 1.5f));     // se passo 0.5f, il giocatore viene renderizzato al livello del terreno
+            soilList.add(new SoilEntity(world, soilTexture, 0, 1000, 1));
+
+            for (int i = 7; i < 999; i = i + 6) {       // generazione casuale dei blocchi
+                int randomBlockPosition = (int) (Math.random() * (5 - 3 + 1) + 3);
+                randomBlockPosition = randomBlockPosition + i;
+                blockList.add(new BlockEntity(world, blockTexture, randomBlockPosition, 1));
+            }
+
+            /*stage.getCamera().position.set(320, 180, 0);        // reset della visuale nella posizione iniziale
+            stage.getCamera().update();*/
+        }
+
         switch (city) {
             case 1:
                 backgroundTexture = game.getManager().get("cities/Firenze1.png");
@@ -141,20 +198,6 @@ public class GameScreen extends BaseScreen {
         backgroundSprite = new Sprite(backgroundTexture);
         backgroundSprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        player = new PlayerEntity(world, playerTexture, new Vector2(1.5f, 1.5f));     // se passo 0.5f, il giocatore viene renderizzato al livello del terreno
-        soilList.add(new SoilEntity(world, soilTexture, 0, 1000, 1));
-
-        for (int i = 7; i < 999; i = i + 6) {       // generazione casuale dei blocchi
-            int randomBlockPosition = (int) (Math.random() * (5 - 3 + 1) + 3);
-            randomBlockPosition = randomBlockPosition + i;
-            blockList.add(new BlockEntity(world, blockTexture, randomBlockPosition, 1));
-        }
-        //soilList.add(new SoilEntity(world, soilTexture, 13, 10, 2));
-        //blockList.add(new BlockEntity(world, blockTexture, 7, 1));      // al valore y s'intende il livello dello strato di terreno sopra il quale verrà poszionato il blocco
-        //blockList.add(new BlockEntity(world, blockTexture, 17, 2));
-        //blockList.add(new BlockEntity(world, blockTexture, 26, 1));
-        //blockList.add(new BlockEntity(world, blockTexture, 60, 1));
-
         for (SoilEntity soil : soilList) {
             stage.addActor(soil);
         }
@@ -162,13 +205,20 @@ public class GameScreen extends BaseScreen {
             stage.addActor(block);
         }
 
-        scoreText = new TextEntity("SCORE: " + score, 0, 0);
-
         stage.addActor(player);
+
+        scoreText = new TextEntity("SCORE: " + score, 0, 0);
         stage.addActor(scoreText);
 
         bgMusic.setVolume(0.75f);
-        bgMusic.play();
+        if(prefs.hasSound()) {
+            bgMusic.play();
+        }
+
+        Texture pauseTexture = game.getManager().get("block.png");
+        hud = new Hud(pauseTexture);
+
+
     }
 
     public void hide() {
@@ -196,38 +246,61 @@ public class GameScreen extends BaseScreen {
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);		// tinge lo schermo di un colore
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);		// pulisce la scheda video da immagini precedenti
 
+
         if (Gdx.input.isTouched()  &&  player.isOnFloor()) {        // per far saltare il protagonista, tenendo premuto lo schermo
             jumpSound.play();
             player.jump();
         }
 
-        if (player.getX() == 0 && player.isAlive()) {
+        /*if (player.getPosition().x == 0 && player.isAlive()) {
             stage.getCamera().position.set(320, 180, 0);        // reset della visuale nella posizione iniziale
             stage.getCamera().update();
-        }
+        }*/
 
-        if (player.getX() > 150 && player.isAlive()) {
-            stage.getCamera().translate(player.getActualSpeed() * delta * PIXELS_IN_METER, 0, 0);      // sposto la visuale con l'avanzare del giocatore
-        }
+        /*if (player.getX() > 150 && player.isAlive()) {
+            //stage.getCamera().translate(player.getActualSpeed() * delta * PIXELS_IN_METER, 0, 0);      // sposto la visuale con l'avanzare del giocatore
+            stage.getCamera().position.set(player.getX() + 180, 180, 0);
+            stage.getCamera().update();
+        }*/
+        stage.getCamera().position.set(player.getX() + 180, 180, 0);
+        stage.getCamera().update();
+
 
         if (player.isAlive()) {
-            score = (int) player.getX();
+            score = (int) player.getPosition().x;
             scoreText.updateText("SCORE: " + score);
             scoreText.updatePosition((int) stage.getCamera().position.x + 180, 20);
         }
 
-        if (player.getX() > speedPoint && player.isAlive()) {
+        if (player.getPosition().x > speedPoint && player.isAlive()) {
             player.moreSpeed();
-            speedPoint = speedPoint + 999;
+            speedPoint = speedPoint + 99;
+        }
+
+        if(hud.getHudClicked() == 1) {
+            hud.resetHudValue();
+            //salva progressi
+            prefs.saveCurrentGame(player, blockList, score, city);
+            System.out.println("Partita Salvata");
+            game.setScreen(game.pauseScreen);        // mostra la schermata di game over
         }
 
         batchBackground.begin();
         backgroundSprite.draw(batchBackground);
         batchBackground.end();
 
-        stage.act();        // prima di introdurre le forze in campo
-        world.step(delta, 6, 2);        // applicazione delle forze
+        if(resumed) {
+            resumedSeconds += delta;
+            if(resumedSeconds >= 1) resumed = false;  //la partita riprende dopo un secondo
+        } else
+        {
+            stage.act();        // prima di introdurre le forze in campo
+            hud.getStage().act(delta);
+            world.step(delta, 6, 2);        // applicazione delle forze
+        }
         stage.draw();       // disegna con i parametri calcolati
+        hud.getStage().draw();
+
     }
 
     @Override
@@ -237,6 +310,9 @@ public class GameScreen extends BaseScreen {
 
         stage.dispose();
         world.dispose();
+        hud.dispose();
     }
+
+
 
 }
