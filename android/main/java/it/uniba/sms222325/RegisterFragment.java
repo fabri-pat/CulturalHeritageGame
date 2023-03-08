@@ -108,7 +108,7 @@ public class RegisterFragment extends Fragment {
                 public void onComplete(@NonNull Task<User> task) {
                     try {
                         if (task.getResult() == null) {
-                            userRepository.getUser("email", email)
+                            userRepository.getUser(UserRepository.EMAIL_FIELD, email)
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.getResult() == null) {
                                             userRepository.addUser(new User(username, email));
@@ -139,7 +139,7 @@ public class RegisterFragment extends Fragment {
                         String email = googleSignInAccountTask.getResult().getEmail();
                         String username = registerUsername.getText().toString();
 
-                        userRepository.getUser("email", email).addOnCompleteListener(task -> {
+                        userRepository.getUser(UserRepository.EMAIL_FIELD, email).addOnCompleteListener(task -> {
                             if (task.getResult() == null) {
                                 String idToken = googleSignInAccountTask.getResult().getIdToken();
 

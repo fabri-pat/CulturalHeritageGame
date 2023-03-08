@@ -29,7 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:padding="3dp">
+                    android:padding="5dp">
                     <Button
                         android:id="@+id/account_button"
                         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:padding="3dp">
+                    android:padding="5dp">
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -61,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:padding="3dp">
+                    android:padding="5dp">
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -76,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:padding="3dp">
+                    android:padding="5dp">
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -112,7 +112,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="20dp">
+                        android:layout_margin="10dp">
                         <androidx.fragment.app.FragmentContainerView
                             android:id="@+id/containerSettings"
                             android:layout_width="match_parent"

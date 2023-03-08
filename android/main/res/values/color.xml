@@ -16,6 +16,7 @@
     <color name="primaryBtnBGround">#00e600</color>
     <color name="primaryBtnBGroundLight">#21ff21</color>
     <color name="primaryBtnBGroundDark">#00b800</color>
+    <color name="disabledBtnBGround">#9ab972</color>
     <color name="logout_button">#F3F54B3F</color>
 
     //text color
@@ -30,6 +31,7 @@
 
     //general background palette color
     <color name="generalBGround">#a3ac9e</color>
+    <color name="generalBGroundLighter">#cdd2ca</color>
 
     //window fragment background color
     <color name="windowFragm">#a5a5a5</color>

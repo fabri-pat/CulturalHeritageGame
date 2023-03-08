@@ -61,7 +61,7 @@ public class MainMenuFragment extends Fragment {
             if (fragmentActivity != null){
                 fragmentActivity.getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.container, new CustomWindowFragment(new SettingsFragment(), "Impostazioni"))
+                        .replace(R.id.container, new CustomWindowFragment(new SettingsFragment(), getString(R.string.settings_windows_title)))
                         .addToBackStack("mainmenu")
                         .commit();
             }
@@ -81,10 +81,10 @@ public class MainMenuFragment extends Fragment {
         gameMenuBtn.setOnClickListener(v -> {
             if(playButton.getVisibility() == View.INVISIBLE && continueBtn.getVisibility() == View.INVISIBLE) {
                 anim((float)1.5, 0, 0, 0, 1000, playButton, true);
-                anim((float)1.5, 0, 0, 0, 1000, continueBtn, true);
-                playButton.setEnabled(true);
+                anim((float)1.5, 0, 0, 0, 1000, continueBtn, false);
+                //playButton.setEnabled(true);
                 //TODO: controllare prima se c'è una partita salvata
-                continueBtn.setEnabled(false);
+                //continueBtn.setEnabled(false);
             }
         });
 
@@ -92,7 +92,7 @@ public class MainMenuFragment extends Fragment {
             if(fragmentActivity != null){
                 fragmentActivity.getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.container, new CustomWindowFragment(new LeaderboardFragment(), "Leaderboard"))
+                        .replace(R.id.container, new CustomWindowFragment(new LeaderboardFragment(), getString(R.string.leaderboard_windows_title)))
                         .addToBackStack("mainmenu")
                         .commit();
             }

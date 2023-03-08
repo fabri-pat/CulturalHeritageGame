@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.CulturalHeritageGame" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+    <style name="Theme.CulturalHeritageGame" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryDarkColor</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -19,14 +19,16 @@
 
     <!-- Button style -->
     <style name="ButtonStyle">
-        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:background">@drawable/custom_selector</item>
         <item name="android:textColor">@color/primaryTextButton</item>
         <item name="android:fontFamily">@font/motley_forces_regular</item>
+        <item name="android:drawableTint">@color/primaryTextButton</item>
     </style>
 
     <style name="ButtonMenuStyle">
         <item name="android:background">@drawable/rounded_menu_button</item>
         <item name="android:textColor">@color/primaryTextButton</item>
+        <item name="android:drawableTint">@color/primaryTextButton</item>
     </style>
 
     <!-- Action Bar Color -->
@@ -41,7 +43,7 @@
 
     <!-- Window Fragment Background Color -->
     <style name="windowFragmStyle">
-        <item name="android:background">@color/generalBGround</item>
+        <item name="android:background">@color/generalBGroundLighter</item>
     </style>
 
     <!-- Card Background Color -->
@@ -52,6 +54,8 @@
     <!-- Edit Text Style -->
     <style name="EditTextStyle">
         <item name="android:background">@drawable/rounded_edit_text</item>
+        <item name="android:drawableTint">@color/primaryTextButton</item>
+        <item name="android:textColor">@color/primaryTextButton</item>
     </style>
 
 </resources>

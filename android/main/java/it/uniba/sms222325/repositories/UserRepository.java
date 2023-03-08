@@ -11,10 +11,14 @@ import it.uniba.sms222325.entities.User;
 public class UserRepository {
     private static UserRepository myUserRepositoryInstance = null;
     private final CollectionReference userCollection;
+    private static final String collectionName = "users";
+    public static final String USERNAME_FIELD = "username";
+    public static final String EMAIL_FIELD = "email";
+    public static final String BESTSCORE_FIELD = "bestScore";
+
 
     private UserRepository(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String collectionName = "users";
         this.userCollection = db.collection(collectionName);
     }
 
@@ -74,7 +78,7 @@ public class UserRepository {
      * @return The created task
      */
     public Task<List<User>> getLeaderboard() {
-        return userCollection.orderBy("bestScore", Query.Direction.DESCENDING)
+        return userCollection.orderBy(BESTSCORE_FIELD, Query.Direction.DESCENDING)
                 .get()
                 .continueWith(task -> task.getResult().toObjects(User.class));
     }
@@ -86,6 +90,6 @@ public class UserRepository {
      * @return The created task
      */
     public Task<Void> updateBestScore(String username, int score){
-        return userCollection.document(username).update("bestScore", score);
+        return userCollection.document(username).update(BESTSCORE_FIELD, score);
     }
 }

@@ -46,5 +46,8 @@
     <string name="info_text_button">Informazioni</string>
     <string name="audio_text_button">Audio</string>
     <string name="login_required_text">Accedi per accedere a questa funzionalità.</string>
-    <string name="share_leaderboard_text">Condividi la classifica</string>
+    <string name="share_leaderboard_text">Questo è il mio record in Cultural Heritage Game: {0}! Mi trovo alla {1}° posizione globale!\nRiesci a battermi?</string>
+    <string name="share_leaderboard_title_text">Condividi la classifica</string>
+    <string name="leaderboard_windows_title">Classifica</string>
+    <string name="settings_windows_title">Impostazioni</string>
 </resources>
