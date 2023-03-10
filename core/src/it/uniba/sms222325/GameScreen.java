@@ -1,7 +1,5 @@
 package it.uniba.sms222325;
 
-import static it.uniba.sms222325.Constants.PIXELS_IN_METER;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -84,24 +82,8 @@ public class GameScreen extends BaseScreen {
                 // collisione tra protagonista e blocco
                 if (areCollided(contact, "player", "block")
                         && player.isAlive()) {
-                    player.setAlive(false);
-                    if (prefs.getUsername() != null && score > prefs.getBestScore()) {
-                        prefs.setBestScore(score);
-                    }
-                    //speedPoint = 1000;      // reset
-                    bgMusic.stop();
-                    dieSound.play();
-                    prefs.deleteCurrentGame();
+                    playerDie();
 
-                    stage.addAction(Actions.sequence(
-                            Actions.delay(1.5f),
-                            Actions.run(new Runnable() {
-                                @Override
-                                public void run() {
-                                    game.setScreen(game.gameOverScreen);        // mostra la schermata di game over
-                                }
-                            })
-                    ));
                 }
             }
 
@@ -153,11 +135,6 @@ public class GameScreen extends BaseScreen {
             }
 
             soilList.add(new SoilEntity(world, soilTexture, 0, 1000, 1));
-
-            System.out.println("GetX: " + player.getX() + "; position.x: " + player.getPosition().x);
-
-            /*stage.getCamera().position.set(player.getX() +180, 180, 0);   // reset della visuale nella posizione iniziale
-            stage.getCamera().update();*/
         }
         else
         {
@@ -174,9 +151,6 @@ public class GameScreen extends BaseScreen {
                 randomBlockPosition = randomBlockPosition + i;
                 blockList.add(new BlockEntity(world, blockTexture, randomBlockPosition, 1));
             }
-
-            /*stage.getCamera().position.set(320, 180, 0);        // reset della visuale nella posizione iniziale
-            stage.getCamera().update();*/
         }
 
         switch (city) {
@@ -252,25 +226,16 @@ public class GameScreen extends BaseScreen {
             player.jump();
         }
 
-        /*if (player.getPosition().x == 0 && player.isAlive()) {
-            stage.getCamera().position.set(320, 180, 0);        // reset della visuale nella posizione iniziale
-            stage.getCamera().update();
-        }*/
-
-        /*if (player.getX() > 150 && player.isAlive()) {
-            //stage.getCamera().translate(player.getActualSpeed() * delta * PIXELS_IN_METER, 0, 0);      // sposto la visuale con l'avanzare del giocatore
-            stage.getCamera().position.set(player.getX() + 180, 180, 0);
-            stage.getCamera().update();
-        }*/
         stage.getCamera().position.set(player.getX() + 180, 180, 0);
         stage.getCamera().update();
+
 
 
         if (player.isAlive()) {
             score = (int) player.getPosition().x;
             scoreText.updateText("SCORE: " + score);
-            scoreText.updatePosition((int) stage.getCamera().position.x + 180, 20);
         }
+        scoreText.updatePosition((int) stage.getCamera().position.x + 180, 20);
 
         if (player.getPosition().x > speedPoint && player.isAlive()) {
             player.moreSpeed();
@@ -313,6 +278,27 @@ public class GameScreen extends BaseScreen {
         hud.dispose();
     }
 
+    //funzione che viene chiamata quando il giocatore muore
+    private void playerDie() {
+        player.setAlive(false);
+        if (prefs.getUsername() != null && score > prefs.getBestScore()) {
+            prefs.setBestScore(score);
+        }
+        //speedPoint = 1000;      // reset
+        bgMusic.stop();
+        dieSound.play();
+        prefs.saveLastScore(score);
+        prefs.deleteCurrentGame();
 
+        stage.addAction(Actions.sequence(
+                Actions.delay(1.5f),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        game.setScreen(game.gameOverScreen);        // mostra la schermata di game over
+                    }
+                })
+        ));
+    }
 
 }

@@ -1,14 +1,9 @@
 package it.uniba.sms222325;
 
-import static com.badlogic.gdx.net.HttpRequestBuilder.json;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.utils.Json;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
 import java.util.List;
 
 import it.uniba.sms222325.entities.BlockEntity;
@@ -19,7 +14,7 @@ public class Prefs {
 
     private Preferences daniel;
     private Preferences fabrizio;
-    private Preferences gameSave;
+    static private Preferences gameSave;
     private boolean hasSound;
     private int bestScore;
     private String username;
@@ -89,6 +84,15 @@ public class Prefs {
         gameSave.flush();
     }
 
+    public void saveLastScore(int score) {
+        gameSave.putInteger("lastScore", score);
+        gameSave.flush();
+    }
+
+    static public int getLastScore () {
+        return gameSave.getInteger("lastScore", 0);
+    }
+
     public boolean isGameSaved()
     {
         return gameSave.getBoolean("saved", false);
@@ -111,7 +115,6 @@ public class Prefs {
 
     public List<Float> getSavedPlayer() {
         List<Float> list = new ArrayList<Float>();
-        float value;
 
         list.add(gameSave.getFloat("playerX"));
         list.add(gameSave.getFloat("playerY"));
@@ -127,54 +130,6 @@ public class Prefs {
 
     public int getSavedCity() {
         return gameSave.getInteger("city");
-    }
-
-
-
-
-
-
-
-
-
-
-    public void saveCurrentGameJson(PlayerEntity player, List<SoilEntity> soils, List<BlockEntity> blocks, int score, int city) {
-        Hashtable<String, String> hashTable = new Hashtable<String, String>();
-        Json json = new Json();
-        System.out.println("Creati Oggetti");
-        hashTable.put("soils", json.toJson(soils.toArray()) ); //here you are serializing the array
-        System.out.println("hash soils");
-        hashTable.put("blocks", json.toJson(blocks.toArray()));
-        System.out.println("hash blocks");
-        hashTable.put("player", json.toJson(player));
-        System.out.println("Hash player");
-
-        gameSave.putString("soils", hashTable.get("soils"));
-        System.out.println("put soils");
-        gameSave.putString("blocks", hashTable.get("blocks"));
-        System.out.println("put blocks");
-        gameSave.putString("player", hashTable.get("player"));
-        System.out.println("put player");
-        //putting the map into preferences
-        //String serializedInts = Gdx.app.getPreferences("preferences").getString("test");
-        //int[] deserializedInts = json.fromJson(int[].class, serializedInts); //you need to pass the class type - be aware of it!
-
-        gameSave.putInteger("score", score);
-        gameSave.putInteger("city", city);
-        gameSave.putBoolean("saved", true);
-    }
-
-    public PlayerEntity getDeserializedSavedPlayer() {
-        String serializedPlayer = gameSave.getString("player");
-        PlayerEntity deserializedPlayer = json.fromJson(PlayerEntity.class, serializedPlayer);
-        return deserializedPlayer;
-    }
-
-    public List<BlockEntity> getDeserializedSavedBlocks() {
-        String serializedBlocks = gameSave.getString("blocks");
-        BlockEntity[] deserializedBlocks = json.fromJson(BlockEntity[].class, serializedBlocks);
-        List<BlockEntity> list = Arrays.asList(deserializedBlocks);
-        return list;
     }
 
 }

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.uniba.sms222325.BaseScreen;
 import it.uniba.sms222325.MyGdxGame;
+import it.uniba.sms222325.Prefs;
 
 public class GameOverScreen extends BaseScreen {
 
@@ -18,14 +19,19 @@ public class GameOverScreen extends BaseScreen {
     private Skin skin;
     private TextButton retry;
     private Label gameOver;
+    private Label lastScore;
+    private Prefs prefs;
 
     public GameOverScreen(final MyGdxGame game) {
         super(game);
+
+        prefs = new Prefs();
 
         stage = new Stage(new FitViewport(640, 360));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         retry = new TextButton("Retry", skin);
         gameOver = new Label("GAME OVER", skin);
+        lastScore = new Label("SCORE: " + prefs.getLastScore(), skin);
 
         retry.addCaptureListener(new ChangeListener() {
             @Override
@@ -37,8 +43,10 @@ public class GameOverScreen extends BaseScreen {
         retry.setSize(200, 100);
         retry.setPosition(350, 110);
         gameOver.setPosition(150, 150);
+        lastScore.setPosition(150, 200);
         stage.addActor(retry);
         stage.addActor(gameOver);
+        stage.addActor(lastScore);
     }
 
     @Override
