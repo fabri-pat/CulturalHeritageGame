@@ -21,8 +21,15 @@ public class PlayerEntity extends Actor {
     private World world;
     private Body body;
     private Fixture fixture;
-    private boolean alive = true, onFloor = true;
+    private boolean alive = true;
+    private boolean onFloor = true;
+    private boolean isDashing = false, dashDone = false;
+    private boolean isDodging = false;
     private float actualSpeed = PLAYER_SPEED;
+
+    private float timeLeft = 0;
+    private String nextAction = "noAction";
+    private String actionSound = "noAction";
 
     public PlayerEntity(World world, Texture texture, Vector2 position) {
         this.world = world;
@@ -73,21 +80,79 @@ public class PlayerEntity extends Actor {
     @Override
     public void act(float delta) {
 
-        if (alive) {
-            float velocityY = body.getLinearVelocity().y;
-            body.setLinearVelocity(actualSpeed, velocityY);
+        if(timeLeft > 0) {
+            timeLeft -= delta;
+            if(timeLeft <= 0) {
+                isDashing = false;
+                isDodging = false;
+            }
         }
 
-        if (!onFloor) {
-            body.applyForceToCenter(0, -IMPULSE_JUMP * 0.50f, true);
+        if(timeLeft <= 0 && !nextAction.equals("noAction")) {
+            if(nextAction.equals("jump")) {
+                jump();
+            } else if(nextAction.equals("dodge")) {
+                dodge();
+            } else if(nextAction.equals("dash")) {
+                dash();
+            }
+        }
+
+
+        if (alive) {
+            float velocityY;
+            float velocityX;
+            if(isDashing) {
+                velocityX = 1.5f * actualSpeed;
+                velocityY = 0f;
+            }
+            else {
+                velocityX = actualSpeed;
+                velocityY = body.getLinearVelocity().y;
+            }
+            body.setLinearVelocity(velocityX, velocityY);
+        }
+
+
+        if(onFloor) {
+            dashReset();
+        } else {
+            if(!isDashing) {
+                body.applyForceToCenter(0, -IMPULSE_JUMP * 0.50f, true);
+            }
+        }
+    }
+
+    private void dash() {
+        if (alive && !dashDone) {
+            System.out.println("Now next action: Dash");
+            isDashing = true;
+            isDodging = false;
+            dashDone = true;
+            nextAction = "noAction";
+            actionSound = "dash";
+            timeLeft = 0.5f;
+        }
+    }
+
+    private void dodge() {
+        if (onFloor && alive) {
+            System.out.println("Now next action: Dodge");
+            isDashing = false;
+            isDodging = true;
+            nextAction = "noAction";
+            actionSound = "dodge";
+            timeLeft = 0.5f;
         }
     }
 
     public void jump() {
         if (onFloor && alive) {
-            onFloor = false;
+            System.out.println("Now next action: Jump");
             Vector2 position = body.getPosition();
             body.applyLinearImpulse(0, IMPULSE_JUMP, position.x, position.y, true);
+            nextAction = "noAction";
+            actionSound = "jump";
         }
     }
 
@@ -112,13 +177,47 @@ public class PlayerEntity extends Actor {
         this.alive = alive;
     }
 
-    public float getActualSpeed() { return actualSpeed; }
+    public float getActualSpeed() {
+        return actualSpeed;
+    }
 
-    public void moreSpeed() { actualSpeed = actualSpeed + 0.2f; }
+    public void moreSpeed() {
+        actualSpeed = actualSpeed + 0.2f;
+    }
 
-    public void setActualSpeed(float actualSpeed) { this.actualSpeed = actualSpeed; }
+    public void setActualSpeed(float actualSpeed) {
+        this.actualSpeed = actualSpeed;
+    }
 
-    public Vector2 getPosition() { return body.getPosition(); }
+    public Vector2 getPosition() {
+        return body.getPosition();
+    }
 
-    public float getVerticalSpeed() { return body.getLinearVelocity().y; }
+    public float getVerticalSpeed() {
+        return body.getLinearVelocity().y;
+    }
+
+    public void setNextAction(String action) {
+        nextAction = action;
+    }
+
+    public String getNextAction () {
+        return nextAction;
+    }
+
+    public void dashReset() {
+        this.dashDone = false;
+    }
+
+    public String getActionSound () {
+        return actionSound;
+    }
+
+    public void resetActionSound () {
+        actionSound = "noAction";
+    }
+
+    public boolean isDashing() {
+        return isDashing;
+    }
 }

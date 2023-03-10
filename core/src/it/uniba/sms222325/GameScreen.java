@@ -39,12 +39,14 @@ public class GameScreen extends BaseScreen {
     private Sprite backgroundSprite;
     private SpriteBatch batchBackground;        // serve per il draw dello sfondo
 
-    private int speedPoint = 100;      // punto di aummento di velocità
+    private int speedPoint = 200;      // punto di aummento di velocità
 
     private Hud hud;
 
     private boolean resumed = false;
     private float resumedSeconds = 0;
+
+    private int previousX;
 
     public static Prefs prefs;      // classe che permette di gestire le informazioni salvabili in locale
 
@@ -83,7 +85,12 @@ public class GameScreen extends BaseScreen {
                 if (areCollided(contact, "player", "block")
                         && player.isAlive()) {
                     playerDie();
+                }
 
+                // collisione tra protagonista e nemico
+                if (areCollided(contact, "player", "enemy")
+                        && player.isAlive()) {
+                    playerDie();
                 }
             }
 
@@ -151,6 +158,8 @@ public class GameScreen extends BaseScreen {
                 randomBlockPosition = randomBlockPosition + i;
                 blockList.add(new BlockEntity(world, blockTexture, randomBlockPosition, 1));
             }
+
+            score = 0;
         }
 
         switch (city) {
@@ -192,6 +201,26 @@ public class GameScreen extends BaseScreen {
         Texture pauseTexture = game.getManager().get("block.png");
         hud = new Hud(pauseTexture);
 
+        previousX = (int) player.getPosition().x;
+
+        Gdx.input.setInputProcessor(new SimpleDirectionGestureDetector(new SimpleDirectionGestureDetector.DirectionListener() {
+            @Override
+            public void onUp() {
+                player.setNextAction("jump");
+            }
+            @Override
+            public void onRight() {
+                player.setNextAction("dash");
+            }
+            @Override
+            public void onLeft() {
+                //no actions on swipe Left
+            }
+            @Override
+            public void onDown() {
+                player.setNextAction("dodge");
+            }
+        }));
 
     }
 
@@ -221,25 +250,45 @@ public class GameScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);		// pulisce la scheda video da immagini precedenti
 
 
-        if (Gdx.input.isTouched()  &&  player.isOnFloor()) {        // per far saltare il protagonista, tenendo premuto lo schermo
-            jumpSound.play();
-            player.jump();
+        // Emissione suoni
+        if(!player.getActionSound().equals("noAction")) {
+            if (player.getActionSound().equals("jump")) {
+                jumpSound.play();
+            } else if (player.getActionSound().equals("dash")) {
+                // play dash sound
+            } else if (player.getActionSound().equals("dodge")) {
+                // play dodge sound
+            }
+            player.resetActionSound();
         }
 
+
+        // Camera update
         stage.getCamera().position.set(player.getX() + 180, 180, 0);
         stage.getCamera().update();
-
-
-
-        if (player.isAlive()) {
-            score = (int) player.getPosition().x;
-            scoreText.updateText("SCORE: " + score);
-        }
         scoreText.updatePosition((int) stage.getCamera().position.x + 180, 20);
 
-        if (player.getPosition().x > speedPoint && player.isAlive()) {
+
+        // Aggiornare il punteggio del giocatore
+        if (player.isAlive()) {
+            if(player.getPosition().x - previousX >= 1f) {
+                if(player.isDashing()) {
+                    score += 5;
+                } else {
+                    score += 1;
+                }
+                previousX = (int) player.getPosition().x;
+            }
+            scoreText.updateText("SCORE: " + score);
+        }
+
+
+        // Aggiornare la velocità del giocatore
+        if (player.getPosition().x >= speedPoint && player.isAlive()) {
             player.moreSpeed();
-            speedPoint = speedPoint + 99;
+            speedPoint = speedPoint + 200;
+            // Assegna punti bonus al giocatore per il traguardo
+            score += 100;
         }
 
         if(hud.getHudClicked() == 1) {
@@ -278,7 +327,7 @@ public class GameScreen extends BaseScreen {
         hud.dispose();
     }
 
-    //funzione che viene chiamata quando il giocatore muore
+    // funzione che viene chiamata quando il giocatore muore
     private void playerDie() {
         player.setAlive(false);
         if (prefs.getUsername() != null && score > prefs.getBestScore()) {
