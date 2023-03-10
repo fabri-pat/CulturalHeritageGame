@@ -51,6 +51,7 @@ public class GameOverScreen extends BaseScreen {
 
     @Override
     public void show() {
+        lastScore.setText("SCORE: " + prefs.getLastScore());
         Gdx.input.setInputProcessor(stage);
     }
 
